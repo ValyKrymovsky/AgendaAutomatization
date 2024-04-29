@@ -1,0 +1,19 @@
+{
+    "dataAutomationKey": {
+        "meta_signBookFileCategory": "meta_signBookFileCategory",
+        "authorAgenda": "authorAgenda",
+        "meta_closedBy": "meta_closedBy",
+        "lockedBy": "lockedBy",
+        "meta_docName": "meta_docName",
+        "size": "size",
+        "meta_docDescription": "meta_docDescription",
+        "name": "name",
+        "meta_fileDescription": "meta_fileDescription",
+        "meta_handledBy": "meta_handledBy",
+        "meta_startTime": "meta_startTime",
+        "evidenceNumber": "evidenceNumber",
+        "creationTime": "creationTime",
+        "processingState": "processingState",
+        "signingState": "signingState"
+    }
+}
