@@ -22,8 +22,7 @@ export default class HomeOfficePage {
     {
         const date = new Date();
         const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-        console.log(date);
-        console.log(formattedDate);
+        
         // Datum od || wf_dat2
         await this.formPage.locator("#wf_dat2").fill(formattedDate);
 
