@@ -1,10 +1,10 @@
 import { Given, Then, When } from "@cucumber/cucumber"
-import { Fixtures } from "../../hooks/PagesFixtures";
-import LoginPage from "../../pages/Login/LoginPage";
+import { Fixtures } from "../../../hooks/PagesFixtures";
+import LoginPage from "../../../pages/Login/LoginPage";
 import { expect } from "@playwright/test";
 import { randomBytes } from "crypto";
-import AgendasPage from "../../pages/Agendas/AgendasPage";
-import HomeOfficePage from "../../pages/HomeOffice/HomeOfficePage";
+import AgendasPage from "../../../pages/Agendas/AgendasPage";
+import HomeOfficePage from "../../../pages/HomeOffice/HomeOfficePage";
 import { Page } from "puppeteer";
 
 
@@ -13,17 +13,10 @@ let homeOfficePage: HomeOfficePage;
 let debugPage: Page
 let agendasPage: AgendasPage;
 
-Given('Login', async function ()
-{
-    loginPage = new LoginPage(this.page);
-    await loginPage.NavigateToLoginPage(process.env.BASEURL);
-    await loginPage.FillUserName(process.env.EMAIL);
-    await loginPage.FillPassword(process.env.PASSWORD);
-    agendasPage = new AgendasPage(this.page);
-});
 
 Then('Open HO page', async function ()
 {
+    if (!agendasPage) agendasPage = new AgendasPage(this.page);
     if (!agendasPage.IsInAgendasPage())
         await agendasPage.GoToAgendasPage();
 
@@ -32,9 +25,13 @@ Then('Open HO page', async function ()
     homeOfficePage.instanceId = form.instanceId;
 });
 
-Then('Send HO', async function()
+Then('Fill out HO {string}', async function(fillOption: string)
 {
-    await homeOfficePage.FillOutAllFields();
+    if (fillOption === "all")
+        await homeOfficePage.FillAllFields();
+    else if (fillOption === "required")
+        await homeOfficePage.FillRequiredFields();
+
     await homeOfficePage.formPage.waitForEvent('close');
     console.log("Filled out form page.");
 });
@@ -63,7 +60,7 @@ Then('Open HO instance', async function()
     await agendasPage.AgendasTabManager("K vyřízení");
     const [newPage] = await Promise.all([
         agendasPage.agendasPage.context().waitForEvent('page', { timeout: 50000 }), // Čeká na nový tab s vlastním timeoutem
-        (await agendasPage.FindAgendaByInstanceId(homeOfficePage.instanceId, 15)).click(),
+        await (await agendasPage.FindAgendaByInstanceId(homeOfficePage.instanceId, 15)).click(),
     ]);
     await newPage.waitForLoadState('networkidle', { timeout: 50000 });
     homeOfficePage.formPage = newPage;
@@ -89,6 +86,8 @@ Then('Check if {string}', async function(action: string)
         console.log(`Agenda je správně ve stavu ${action}.`);
     else
         console.error("Agenda nebyla správně ukončena. Buďto se něco pokazilo, nebo byl uveden malý počet pokusů na nalezení agendy.");
+
+    agendasPage = null;
 });
 
 Then('Change {string} field to {string} and send', async function(fieldId: string, value: string)

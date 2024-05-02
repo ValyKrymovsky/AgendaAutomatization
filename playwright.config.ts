@@ -1,6 +1,6 @@
-import { PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 
-const config: PlaywrightTestConfig = {
+export default defineConfig({
   // Nastavení paralelismu
   workers: 4, // Počet paralelních instancí
   expect: {
@@ -9,11 +9,9 @@ const config: PlaywrightTestConfig = {
   fullyParallel: true,
   use: {
     video: {
-      mode: 'retain-on-failure',
+      mode: 'off',
       size: { width: 1600, height: 900 },
     }
   }
-};
-
-export default config;
+});
 

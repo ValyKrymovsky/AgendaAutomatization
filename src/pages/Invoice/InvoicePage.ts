@@ -18,59 +18,7 @@ export default class InvoicePage {
         setDefaultTimeout(60 * 1000);
     }
 
-    async GoToAgendasPage()
-    {
-        let responseReceived = false;
-
-        // Posluchač pro zachycení odpovědí po navigaci
-        this.page.on('response', response => {
-            if (response.url() === 'https://presofa.602.cz/InProgress/Agendas?viewId=agendas' && response.status() === 200) {
-                console.log('Response status for Agendas page is 200');
-                responseReceived = true;
-            }
-        });
-        //await this.page.goto("https://testsofas.602.cz/fas/formservice/filler.debug?SetDbg=Admin602&Level=5&Comm=true");
-        await this.page.goto("https://presofa.602.cz/InProgress/Agendas?viewId=agendas");
-
-        // Počkejte na načtení stránky
-        await this.page.waitForLoadState('networkidle');
-
-        // Zkontrolujte, zda byla přijata odpověď s kódem 200
-        if (!responseReceived) {
-            throw new Error('Agendas page did not load successfully or response status was not 200.');
-        } 
-    }
-
-    async OpenFormPage()
-    {
-        try {
-            const [newPage] = await Promise.all([
-                this.page.context().waitForEvent('page', { timeout: 50000 }), // Čeká na nový tab s vlastním timeoutem
-                this.page.click(`text=${"Faktura"}`),
-            ]);
-            
-            console.log("Page opened.");
-            
-            // Počká na specifický stav načítání stránky, 'networkidle' indikuje, že síťová aktivita je minimální
-            await newPage.waitForLoadState('networkidle', { timeout: 50000 }); // Zvýšený timeout pro načítání
-            this.formPage = newPage;
-            console.log("Page loaded.");
-
-            this.instanceId = (await this.formPage.locator("#SOFAInstanceIdent").getAttribute("value")).toString();
-            console.log(this.instanceId);
-
-            const prompt = require('prompt-sync')({ sigint: true });
-            const answer = prompt('Stiskněte [Enter] pro pokračování testu...');
-            console.log(`Enter` + answer);
-        }
-        catch (error) {
-            // Zachytí a zpracuje výjimku (např. TimeoutException)
-            console.error("An error occurred during navigation:", error.message);
-            // Zde můžete přidat logiku pro opětovný pokus nebo alternativní postup
-        }
-    }
-
-    async FillOutForm()
+    async FillAllFields()
     {
         // wf_dat0 || Došla dne
         await this.formPage.locator("#wf_dat0").fill("12-12-2021");
@@ -121,7 +69,13 @@ export default class InvoicePage {
         
     }
 
-    async getRandomInt(max) {
+    async FillRequiredFields()
+    {
+
+    }
+
+    async getRandomInt(max) 
+    {
         return Math.floor(Math.random() * max);
-      }
+    }
 }

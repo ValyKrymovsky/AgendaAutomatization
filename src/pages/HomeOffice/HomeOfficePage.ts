@@ -18,7 +18,7 @@ export default class HomeOfficePage {
         setDefaultTimeout(60 * 1000);
     }
 
-    async FillOutAllFields()
+    async FillAllFields()
     {
         const date = new Date();
         const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -42,6 +42,17 @@ export default class HomeOfficePage {
         // Čas do || wf_tim3
         await this.formPage.locator("#wf_tim3").fill("16:30");
 
+        // Zdůvodnění || wf_txt0
+        await this.formPage.locator("#wf_txt0").fill("Test zdůvodnění");
+
+        // wf_btn5 || Tlačítko odeslat
+        await this.formPage.locator("#wf_btn5").click();
+
+        await this.WaitForErrorMessage();
+    }
+
+    async FillRequiredFields()
+    {
         // Zdůvodnění || wf_txt0
         await this.formPage.locator("#wf_txt0").fill("Test zdůvodnění");
 

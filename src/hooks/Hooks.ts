@@ -12,6 +12,8 @@ import AgendasPage from "../pages/Agendas/AgendasPage";
 import SmartSageManagerPage, { LinkNames } from "../pages/SmartSafe/SmartSageManagerPage";
 import SignedFilesPage from "../pages/SmartSafe/SignedFilePage";
 import AllFilesPage from "../pages/SmartSafe/AllFilesPage";     
+import HomeOfficePage from "../pages/HomeOffice/HomeOfficePage";
+import InvoicePage from "../pages/Invoice/InvoicePage";
 
 
 // Vytvoření globálního loggeru
@@ -24,6 +26,8 @@ let signpointPage: SignPointPage;
 let loginPage: LoginPage;
 let agendasPage: AgendasPage;
 let testPage: TestPage;
+let homeOfficePage: HomeOfficePage;
+let invociePage: InvoicePage;
 let smartSafeManagerPage: SmartSageManagerPage;
 let signedFilesPage: SignedFilesPage;
 let allFilesPage: AllFilesPage;
@@ -51,6 +55,7 @@ Before(async function ({ pickle }) {
         recordVideo: {
             dir: "test-results/videos",
         },
+        
     });
 
     await context.tracing.start({
@@ -69,6 +74,8 @@ Before(async function ({ pickle }) {
     loginPage = new LoginPage(page);
     smartSafeManagerPage = new SmartSageManagerPage(page);
     agendasPage = new AgendasPage(page);
+    homeOfficePage = new HomeOfficePage(page);
+    invociePage = new InvoicePage(page);
     signedFilesPage = new SignedFilesPage(page);
     signpointPage = new SignPointPage(page);
     allFilesPage = new AllFilesPage(page, logger);
@@ -76,6 +83,8 @@ Before(async function ({ pickle }) {
     this.loginPage = loginPage;
     this.smartSafeManagerPage = smartSafeManagerPage;
     this.agendasPage = agendasPage;
+    this.homeOfficePage = homeOfficePage;
+    this.invociePage = invociePage;
     this.signedFilesPage = signedFilesPage;
     this.signpointPage = signpointPage;
     this.allFilesPage = allFilesPage;
