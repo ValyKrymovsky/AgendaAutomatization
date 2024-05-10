@@ -32,6 +32,7 @@
     "winston": "^3.13.0"
   },
   "dependencies": {
+    "@types/wicg-file-system-access": "^2023.10.5",
     "clipboardy": "^4.0.0",
     "form-data": "^4.0.0",
     "node-fetch": "^3.3.2",

@@ -1,8 +1,9 @@
 import { Page, expect, Browser } from "@playwright/test";
 import { Fixtures } from "../../hooks/PagesFixtures";
-import { Locator } from "puppeteer";
+import { Keyboard, Locator } from "puppeteer";
 import { Options } from "../../helper/Util/Logger";
 import { Request } from "node-fetch";
+import methods from "@cucumber/cucumber/lib/time";
 
 export default class InvoicePage {
     browser: Browser;
@@ -57,40 +58,27 @@ export default class InvoicePage {
         await this.formPage.locator("#wf_acl1").fill("a");
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByText("Admin, Valy").click();
-
         
-        /*
-        const fileInputSelector = 'input[type="file"]';
-        //await this.formPage.waitForSelector('#wf_btm0_attachment'); 
-        await this.formPage.evaluate(() => {
-            // Vytvoříme skrytý input typu file
-            const fileInput = document.createElement('input');
-            fileInput.style.display = 'none';
-            fileInput.type = 'file';
-            document.body.appendChild(fileInput);
+        const fs = require("fs");
+        // Read your file into a buffer.
+        const buffer = fs.readFileSync('files/4.pdf');
 
-            // Simulujeme kliknutí na skrytý input
-            fileInput.click();
+        // Create the DataTransfer and File
+        const dataTransfer = await this.formPage.evaluateHandle((data) => {
+            const dt = new DataTransfer();
+            // Convert the buffer to a hex array
+            const file = new File([data.toString('hex')], 'files/4.pdf', { type: 'application/pdf' });
+            dt.items.add(file);
+            return dt;
+        }, buffer);
 
-            // Nasloucháme změně a předáme soubor(y)
-            fileInput.addEventListener('change', () => {
-                this.formPage.keyboard.press('C:/Users/602/Desktop/PlaywrightBDD/4.pdf');
-                this.formPage.keyboard.press('Enter');
-                // Zde by se pak soubor předal do nějakého handleru na stránce
-                // Toto je jen příklad a vyžaduje další logiku specifickou pro vaši aplikaci
-            });
-
-        });
-        */
-
-        await this.formPage.locator("#wf_btm0_attachment").click();
-        await this.formPage.setInputFiles('input[type="file"]', `C:/Users/602/Desktop/PlaywrightBDD/4.pdf`);       
-        
+        // Now dispatch
+        await this.formPage.dispatchEvent('#wf_btm0_attachment', 'drop', { dataTransfer });
 
         // wf_btn12 || Tlačítko odeslat
-        await this.formPage.locator("#wf_btn12").click();
-
-        await this.WaitForErrorMessage();
+        this.formPage.locator("#wf_btn12").click();
+        this.WaitForErrorMessage();
+        
     }
 
     async FillRequiredFields()
