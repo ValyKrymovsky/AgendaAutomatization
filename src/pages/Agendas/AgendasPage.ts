@@ -130,11 +130,12 @@ export default class AgendasPage
             {
                 attempt++;
                 await setTimeout(2000);
-                this.agendasPage.reload();
-                await this.agendasPage.waitForLoadState('networkidle', { timeout: 50000 });
+                await (await this.agendasPage.reload()).finished();
+                await this.agendasPage.waitForLoadState('networkidle', { timeout: 80000 });
             }
         }
-        await this.agendasPage.screenshot({path: `test-results/error-screenshots/HO/error_AgendaNotFound.png`, fullPage: true});
+        
+        await this.agendasPage.screenshot({path: `test-results/error-screenshots/error_AgendaNotFound.png`, fullPage: true});
         throw Error(`Agenda instance with id: ${instanceIdent} was not found within ${maxAttempts} attempts!`);
     }
 

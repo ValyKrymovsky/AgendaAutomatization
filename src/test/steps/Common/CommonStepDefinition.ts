@@ -18,3 +18,20 @@ Given('Login', async function ()
     await loginPage.FillPassword(process.env.PASSWORD);
     agendasPage = new AgendasPage(this.page);
 });
+
+
+Then('Switch to user:{string}, id:{string}', async function (userName: string, userId: string)
+{
+    const currentUserLocator = await agendasPage.agendasPage.locator(`//div[@class = 'ms-Persona-primaryText primaryText-201']`);
+    const locatorText = await currentUserLocator.innerText();
+    const currentUserName = locatorText.substring(0, locatorText.length - 1);
+    console.log(currentUserName);
+    if (currentUserName === userName)
+        console.log("Already logged in as the specified user!");
+    else
+    {
+        console.log(`Switching to user: ${userName}`);
+        await agendasPage.SwitchToUserById(userId);
+        console.log("Finished user switch process");
+    }
+});

@@ -36,22 +36,6 @@ Then('Fill out HO {string}', async function(fillOption: string)
     console.log("Filled out form page.");
 });
 
-Then('Switch to user:{string}, id:{string}', async function (userName: string, userId: string)
-{
-    const currentUserLocator = await agendasPage.agendasPage.locator(`//div[@class = 'ms-Persona-primaryText primaryText-201']`);
-    const locatorText = await currentUserLocator.innerText();
-    const currentUserName = locatorText.substring(0, locatorText.length - 1);
-    console.log(currentUserName);
-    if (currentUserName === userName)
-        console.log("Already logged in as the specified user!");
-    else
-    {
-        console.log(`Switching to user: ${userName}`);
-        await agendasPage.SwitchToUserById(userId);
-        console.log("Finished user switch process");
-    }
-});
-
 Then('Open HO instance', async function()
 {
     if (!agendasPage.IsInAgendasPage())
@@ -74,7 +58,7 @@ Then('{string} HO request', async function(action: string)
     console.log("Page closed.");
 });
 
-Then('Check if {string}', async function(action: string)
+Then('Check if HO is {string}', async function(action: string)
 {
     if (!agendasPage.IsInAgendasPage())
         await agendasPage.GoToAgendasPage();
