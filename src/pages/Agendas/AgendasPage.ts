@@ -116,14 +116,12 @@ export default class AgendasPage
     async FindAgendaByInstanceId(instanceIdent: string, maxAttempts: number)
     {
         var attempt = 0;
-        var foundInstance = false;
 
-        while(!foundInstance && attempt < maxAttempts)
+        while(attempt < maxAttempts)
         {
             const userLocator = await this.agendasPage.locator(`//a[contains (@href, '${instanceIdent}')]`);
             if (await userLocator.isVisible())
             {
-                foundInstance = true;
                 return userLocator;
             } 
             else
@@ -143,15 +141,13 @@ export default class AgendasPage
     {
         var stateText = await rowLocator.locator(`//div[@aria-colindex = "2" and @aria-readonly = "true"]`).textContent();
         stateText = stateText.slice(1);
-        console.log(stateText);
         
         if (stateText === state)
             console.log(`Agenda je správně ve stavu ${state}.`);
         else
-            throw new Error("Agenda nebyla správně ukončena. Buďto se něco pokazilo, nebo byl uveden malý počet pokusů na nalezení agendy.")
+            throw new Error(`Agenda není ve správném stavu. Požadovaný stav: ${state}, aktuální stav: ${stateText}.`)
             
     }
-
 
     async SwitchToUserById(userIdent: string)
     {

@@ -5,7 +5,7 @@ import { Options } from "../../helper/Util/Logger";
 import { Request } from "node-fetch";
 import methods from "@cucumber/cucumber/lib/time";
 
-export default class InvoicePage {
+export default class PurchaseRequestPage {
     browser: Browser;
     formPage: Page;
     instanceId: string;
@@ -24,112 +24,89 @@ export default class InvoicePage {
         const date = new Date();
         const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
-        // wf_dat0 || Došla dne
-        await this.formPage.locator("#wf_dat0").fill(formattedDate);
-        // wf_dat1 || Splatnost
-        await this.formPage.locator("#wf_dat1").fill(formattedDate);
-        // wf_num0 || Částka s DPH
-        var num = await this.GetRandomInt(99999);
-        await this.formPage.locator("#wf_num0").fill(num.toString());
-        // wf_ilb1 || Způsob platby
-        await this.formPage.locator("#wf_ilb1").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Složenkou", exact: true}).click();
-        // wf_txt0 || Variabilní symbol
-        await this.formPage.locator("#wf_txt0").fill((await this.GetRandomInt(9999)).toString());
-        // wf_dat2 || Dodávka převzata dne
-        await this.formPage.locator("#wf_dat2").fill(formattedDate);
-        // wf_txt1 || Popis dodávky
-        await this.formPage.locator("#wf_txt1").fill("Test popisek");
-
-        // wf_txt3 || IČ
-        await this.formPage.locator("#wf_txt3").fill("25128442");
-        // wf_btn3 || Tlačítko ARES
-        await this.formPage.locator("#wf_btn3").click();
-
-        // wf_ilb5 || Středisko
-        await this.formPage.locator("#wf_ilb5").click();
+        // wf_ilb0 || Nákladové středisko
+        await this.formPage.locator("#wf_ilb0").click();
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByRole("option", {name: "Položka 1", exact: true}).click();
-        // wf_num3 || Částka s DPH
-        await this.formPage.locator("#wf_num3").fill(num.toString());
 
-        // wf_acl1 || Schvalovatel
-        await this.formPage.locator("#wf_acl1").fill("a");
+        // wf_ilb1 || Oblast zboží
+        await this.formPage.locator("#wf_ilb1").click();
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByText("Admin, Valy").click();
+        await this.formPage.getByRole("option", {name: "HQ", exact: true}).click();
 
+        // wf_ilb2 || Měna
+        await this.formPage.locator("#wf_ilb2").click();
+        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+        await this.formPage.getByRole("option", {name: "$", exact: true}).click();
+
+        // wf_txt4 || Název zboží
+        await this.formPage.locator("#wf_txt4").fill("Test název zboží");
+
+        // wf_txt5 || Dodavatel
+        await this.formPage.locator("#wf_txt5").fill("Test dodavatel");
+
+        // wf_num0 || Množství
+        await this.formPage.locator("#wf_num0").fill(this.GetRandomInt(999).toString());
+
+        // wf_ilb3 || Sazba DPH
+        await this.formPage.locator("#wf_ilb3").click();
+        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+        await this.formPage.getByRole("option", {name: "21%", exact: true}).click();
+
+        // wf_num1 || Cena za položku bez DPH
+        await this.formPage.locator("#wf_num1").fill(this.GetRandomInt(999).toString());
+
+        // wf_txt6 || Odkaz
+        await this.formPage.locator("#wf_txt6").fill("Test odkaz");
+
+        // wf_txt7 || Komentář
+        await this.formPage.locator("#wf_txt7").fill("Test komentář...");
+
+        // wf_btm0_attachment || Button pro vložení příloh
         await this.UploadFile();
 
-        // wf_btn12 || Tlačítko odeslat
-        await this.formPage.locator("#wf_btn12").click();
+        // wf_btn7 || Button pro odeslání
+        await this.formPage.locator("#wf_btn7").click();
         await this.WaitForErrorPopup();
-        
     }
 
     async FillRequiredFields()
     {
-        const date = new Date();
-        const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
-        // wf_dat0 || Došla dne
-        await this.formPage.locator("#wf_dat0").fill(formattedDate);
-        // wf_dat1 || Splatnost
-        await this.formPage.locator("#wf_dat1").fill(formattedDate);
-        // wf_num0 || Částka s DPH
-        var num = await this.GetRandomInt(99999);
-        await this.formPage.locator("#wf_num0").fill(num.toString());
-        // wf_ilb1 || Způsob platby
-        await this.formPage.locator("#wf_ilb1").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Složenkou", exact: true}).click();
-        // wf_txt0 || Variabilní symbol
-        await this.formPage.locator("#wf_txt0").fill((this.GetRandomInt(9999)).toString());
-        // wf_dat2 || Dodávka převzata dne
-        await this.formPage.locator("#wf_dat2").fill(formattedDate);
-        // wf_txt1 || Popis dodávky
-        await this.formPage.locator("#wf_txt1").fill("Test popisek");
-
-        // wf_txt3 || IČ
-        await this.formPage.locator("#wf_txt3").fill("63078236");
-        // wf_btn3 || Tlačítko ARES
-        await this.formPage.locator("#wf_btn3").click();
-
-        // wf_ilb5 || Středisko
-        await this.formPage.locator("#wf_ilb5").click();
+        // wf_ilb0 || Nákladové středisko
+        await this.formPage.locator("#wf_ilb0").click();
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByRole("option", {name: "Položka 1", exact: true}).click();
-        // wf_num3 || Částka s DPH
-        await this.formPage.locator("#wf_num3").fill(num.toString());
 
-        // wf_acl1 || Schvalovatel
-        await this.formPage.locator("#wf_acl1").fill("a");
+        // wf_ilb1 || Oblast zboží
+        await this.formPage.locator("#wf_ilb1").click();
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByText("Admin, Valy").click();
-        
-        const fs = require("fs");
-        // Read your file into a buffer.
-        const buffer = fs.readFileSync('files/4.pdf');
+        await this.formPage.getByRole("option", {name: "HQ", exact: true}).click();
 
-        // Create the DataTransfer and File
-        const dataTransfer = await this.formPage.evaluateHandle((data) => {
-            const dt = new DataTransfer();
-            // Convert the buffer to a hex array
-            const file = new File([data.toString('hex')], 'files/4.pdf', { type: 'application/pdf' });
-            dt.items.add(file);
-            return dt;
-        }, buffer);
+        // wf_ilb2 || Měna
+        await this.formPage.locator("#wf_ilb2").click();
+        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+        await this.formPage.getByRole("option", {name: "$", exact: true}).click();
 
-        // Now dispatch
-        await this.formPage.dispatchEvent('#wf_btm0_attachment', 'drop', { dataTransfer });
+        // wf_txt4 || Název zboží
+        await this.formPage.locator("#wf_txt4").fill("Test název zboží");
 
-        // wf_txt13 || Zpráva pro účetní
-        await this.formPage.locator("#wf_txt13").fill("Random zpráva pro účetní.");
+        // wf_txt5 || Dodavatel
+        await this.formPage.locator("#wf_txt5").fill("Test dodavatel");
 
-        // wf_btn12 || Tlačítko odeslat
-        await this.formPage.locator("#wf_btn12").click();
+        // wf_num0 || Množství
+        await this.formPage.locator("#wf_num0").fill(this.GetRandomInt(999).toString());
+
+        // wf_ilb3 || Sazba DPH
+        await this.formPage.locator("#wf_ilb3").click();
+        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+        await this.formPage.getByRole("option", {name: "21%", exact: true}).click();
+
+        // wf_num1 || Cena za položku bez DPH
+        await this.formPage.locator("#wf_num1").fill(this.GetRandomInt(999).toString());
+
+        // wf_btn7 || Button pro odeslání
+        await this.formPage.locator("#wf_btn7").click();
         await this.WaitForErrorPopup();
-        
     }
 
     async FillOutSpecificField(field: string, value: string)
@@ -144,51 +121,45 @@ export default class InvoicePage {
         await this.WaitForErrorPopup();
     }
 
-    async CompleteActionAsApprover(action: string)
+    async CompleteActionAsCenterManager(action: string)
     {
         console.log("Called CompleteActionAsApprover function.");
         switch(action)
         {
             case "Approve":
-                await this.formPage.locator("#wf_btn10").click();
+                await this.formPage.locator("#wf_btn11").click();
+                await this.WaitForErrorPopup();
+                break;
+
+            case "Deny":
+                await this.formPage.locator("#wf_txt1").fill("Odůvodnění: zamítnuto...");
+                await this.formPage.locator("#wf_btn13").click();
+                await this.WaitForNotePopup();
                 await this.WaitForErrorPopup();
                 break;
 
             case "Return":
-                await this.formPage.locator("#wf_txt0").fill("Odůvodění: vráceno...");
-                await this.formPage.locator("#wf_btn11").click();
+                await this.formPage.locator("#wf_txt1").fill("Odůvodnění: vráceno...");
+                await this.formPage.locator("#wf_btn12").click();
                 await this.WaitForNotePopup();
                 await this.WaitForErrorPopup();
                 break;
         }
-
-        
     }
 
-    async CompleteActionAsAccountant(action: string)
+    async CompleteActionAsPurchaseManager(action: string)
     {
         console.log("Called CompleteActionAsAccountant function.");
         switch(action)
         {
             case "Approve":
-                await this.formPage.locator("#wf_txt6").fill("test evidenční číslo");
-                await this.formPage.locator("#wf_btn24").click();
+                await this.formPage.locator("#wf_btn9").click();
                 await this.WaitForErrorPopup();
                 break;
-            
+
             case "Deny":
-                await this.formPage.locator("#wf_btn28").click();
-                await this.WaitForErrorPopup();
-                break;
-
-            case "Return":
-                await this.formPage.locator("#wf_btn27").click();
-                await this.WaitForNotePopup();
-                await this.WaitForErrorPopup();
-                break;
-
-            case "Save":
-                await this.formPage.locator("#wf_btn25").click();
+                await this.formPage.locator("#wf_btn10").click();
+                await this.WaitForDenyPopup();
                 await this.WaitForErrorPopup();
                 break;
         }
@@ -210,7 +181,7 @@ export default class InvoicePage {
             if (errorMessage.includes("není správně vyplněn")) {
                 // Zavřeme dialog kliknutím na tlačítko zavřít
                 
-                await this.formPage.screenshot({path: `test-results/error-screenshots/Invoice/error_${logDate}.png`, fullPage: true});
+                await this.formPage.screenshot({path: `test-results/error-screenshots/PurchaseRequest/error_${logDate}.png`, fullPage: true});
                 await this.formPage.locator('#wf_Dlg_Message').getByRole('button', { name: '×' }).click();
                 console.log("Error dialog dismissed.");
             }
@@ -223,7 +194,7 @@ export default class InvoicePage {
         catch (error) {
             // Pokud dialog s chybou není nalezen nebo obsahuje neočekávanou zprávu
             console.error("An unexpected error occurred or the error dialog did not appear as expected:", error.message);
-            await this.formPage.screenshot({path: `test-results/error-screenshots/Invoice/error_${logDate}.png`, fullPage: true});
+            await this.formPage.screenshot({path: `test-results/error-screenshots/PurchaseRequest/error_${logDate}.png`, fullPage: true});
             throw new Error("An unexpected error occurred or the error dialog did not appear as expected:" + error.message);
         }
     }
@@ -251,7 +222,38 @@ export default class InvoicePage {
         catch (error) {
             // Pokud dialog s chybou není nalezen nebo obsahuje neočekávanou zprávu
             console.error("An unexpected error occurred, error message:", error.message);
-            await this.formPage.screenshot({path: `test-results/error-screenshots/Invoice/error_${logDate}.png`, fullPage: true});
+            await this.formPage.screenshot({path: `test-results/error-screenshots/PurchaseRequest/error_${logDate}.png`, fullPage: true});
+            throw new Error("An unexpected error occurred, error message:" + error.message);
+        }
+    }
+
+    async WaitForDenyPopup()
+    {
+        const date = new Date();
+        const logDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDay()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
+
+        try {
+            // Očekáváme, že se zobrazí dialog s chybou a najdeme jeho text
+            const popupLocator = this.formPage.locator("#wf_Dlg_Message:visible");
+            await popupLocator.waitFor({ timeout: 10000 });
+            console.log("Message box is visible");
+
+            await popupLocator.locator('button.btn.btn-primary').click();
+            console.log("Yes i want to deny request!");
+
+            await expect(popupLocator.getByRole('heading', { name: "Zadejte poznámku:" })).toBeVisible();
+            console.log('Message box is the right one.');
+
+            await popupLocator.locator("#wf_NoteArea").fill("Odůvodnění: zamítnuto..");
+            console.log("Filled message box.");
+
+            await popupLocator.locator('button.btn.btn-primary').click();
+            console.log("Sent message box");
+        }
+        catch (error) {
+            // Pokud dialog s chybou není nalezen nebo obsahuje neočekávanou zprávu
+            console.error("An unexpected error occurred, error message:", error.message);
+            await this.formPage.screenshot({path: `test-results/error-screenshots/PurchaseRequest/error_${logDate}.png`, fullPage: true});
             throw new Error("An unexpected error occurred, error message:" + error.message);
         }
     }

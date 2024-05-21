@@ -69,14 +69,15 @@ Then('Check if Invoice is {string}', async function(action: string)
         await agendasPage.GoToAgendasPage();
 
     await agendasPage.AgendasTabManager("Uzavřené");
-    console.log(invoicePage.instanceId);
+
     var rowLocator = (await agendasPage.FindAgendaByInstanceId(invoicePage.instanceId, 30)).locator('..').locator('..').locator('..');
     await agendasPage.CheckAgendaState(rowLocator, action);
-
-    agendasPage = null;
 });
 
-Then('Change {string} field to {string} and send', async function(fieldId: string, value: string)
+Then('End test', async function()
 {
-    await invoicePage.FillOutSpecificField(fieldId, value);
+    agendasPage = null;
+    loginPage = null;
+    invoicePage = null;
+    debugPage = null;
 });
