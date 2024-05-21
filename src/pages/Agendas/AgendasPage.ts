@@ -139,6 +139,20 @@ export default class AgendasPage
         throw Error(`Agenda instance with id: ${instanceIdent} was not found within ${maxAttempts} attempts!`);
     }
 
+    async CheckAgendaState(rowLocator: Locator, state: string)
+    {
+        var stateText = await rowLocator.locator(`//div[@aria-colindex = "2" and @aria-readonly = "true"]`).textContent();
+        stateText = stateText.slice(1);
+        console.log(stateText);
+        
+        if (stateText === state)
+            console.log(`Agenda je správně ve stavu ${state}.`);
+        else
+            throw new Error("Agenda nebyla správně ukončena. Buďto se něco pokazilo, nebo byl uveden malý počet pokusů na nalezení agendy.")
+            
+    }
+
+
     async SwitchToUserById(userIdent: string)
     {
         await this.agendasPage.locator("#userInfo").click();

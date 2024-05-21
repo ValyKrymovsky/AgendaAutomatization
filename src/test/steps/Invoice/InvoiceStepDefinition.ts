@@ -65,17 +65,13 @@ Then('{string} Invoice request as accountant', async function(action: string)
 
 Then('Check if Invoice is {string}', async function(action: string)
 {
-    if (!agendasPage.IsInAgendasPage())
+   if (!agendasPage.IsInAgendasPage())
         await agendasPage.GoToAgendasPage();
 
     await agendasPage.AgendasTabManager("Uzavřené");
     console.log(invoicePage.instanceId);
-    var agendaInstanceLocator = await agendasPage.FindAgendaByInstanceId(invoicePage.instanceId, 30);
-    var instanceStateLocator = await agendaInstanceLocator.getByText(action);
-    if (instanceStateLocator)
-        console.log(`Agenda je správně ve stavu ${action}.`);
-    else
-        console.error("Agenda nebyla správně ukončena. Buďto se něco pokazilo, nebo byl uveden malý počet pokusů na nalezení agendy.");
+    var rowLocator = (await agendasPage.FindAgendaByInstanceId(invoicePage.instanceId, 30)).locator('..').locator('..').locator('..');
+    await agendasPage.CheckAgendaState(rowLocator, action);
 
     agendasPage = null;
 });

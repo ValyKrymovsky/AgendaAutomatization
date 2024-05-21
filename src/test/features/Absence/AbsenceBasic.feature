@@ -31,4 +31,4 @@ Scenario: Absence positive test
     Then Open Absence instance
     Then "Deny" Absence request as accountant
     Then Switch to user:"Development 1, Karel", id:"9e460476-d735-4873-b564-e360efb460e8"
-    Then Check if Absence is "Schváleno archivováno"
+    Then Check if Absence is "Stornováno"

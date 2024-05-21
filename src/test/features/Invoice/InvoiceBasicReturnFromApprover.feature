@@ -1,6 +1,6 @@
 Feature: Invoice
 
-@Invoice
+
 @SystemAgenda
 Scenario: Invoice 
     Given Login

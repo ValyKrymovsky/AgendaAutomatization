@@ -4,6 +4,7 @@ import LoginPage from "../../../pages/Login/LoginPage";
 import { expect } from "@playwright/test";
 import AgendasPage from "../../../pages/Agendas/AgendasPage";
 import { Page } from "puppeteer";
+import { setTimeout } from "timers/promises";
 
 
 let loginPage: LoginPage;
@@ -34,4 +35,10 @@ Then('Switch to user:{string}, id:{string}', async function (userName: string, u
         await agendasPage.SwitchToUserById(userId);
         console.log("Finished user switch process");
     }
+});
+
+Then('Wait for {int} seconds', { timeout: 600 * 1000 }, async function(waitTime)
+{
+    const originalTimeout = 
+    await setTimeout(waitTime * 1000);
 });

@@ -6,7 +6,7 @@ import { randomBytes } from "crypto";
 import AgendasPage from "../../../pages/Agendas/AgendasPage";
 import AbsencePage from "../../../pages/Absence/AbsencePage";
 import { Page } from "puppeteer";
-import { setTimeout } from "timers/promises";
+
 
 let loginPage: LoginPage;
 let absencePage: AbsencePage;
@@ -71,20 +71,9 @@ Then('Check if Absence is {string}', async function(action: string)
 
     await agendasPage.AgendasTabManager("Uzavřené");
     console.log(absencePage.instanceId);
-    var agendaInstanceLocator = (await agendasPage.FindAgendaByInstanceId(absencePage.instanceId, 30)).locator('..').locator('..').locator('..');
-    /*
 
-    for (let i = 0; i < (await agendaInstanceLocator.allInnerTexts()).length; i++)
-    {
-        console.log((await agendaInstanceLocator.allInnerTexts())[i] + "\n");
-    }
-    */
-    var instanceStateLocator = await agendaInstanceLocator.getByTitle(action);
-    console.log(await instanceStateLocator.innerText());
-    if (instanceStateLocator != null)
-        console.log(`Agenda je správně ve stavu ${action}.`);
-    else
-        console.error("Agenda nebyla správně ukončena. Buďto se něco pokazilo, nebo byl uveden malý počet pokusů na nalezení agendy.");
+    var rowLocator = (await agendasPage.FindAgendaByInstanceId(absencePage.instanceId, 30)).locator('..').locator('..').locator('..');
+    await agendasPage.CheckAgendaState(rowLocator, action);
 
     agendasPage = null;
 });
@@ -94,8 +83,3 @@ Then('Change {string} field to {string} and send', async function(fieldId: strin
     await absencePage.FillOutSpecificField(fieldId, value);
 });
 
-Then('Wait for {int} seconds', { timeout: 600 * 1000 }, async function(waitTime)
-{
-    const originalTimeout = 
-    await setTimeout(waitTime * 1000);
-});
