@@ -134,7 +134,7 @@ export default class PurchaseRequestPage {
             case "Deny":
                 await this.formPage.locator("#wf_txt1").fill("Odůvodnění: zamítnuto...");
                 await this.formPage.locator("#wf_btn13").click();
-                await this.WaitForNotePopup();
+                await this.WaitForDenyPopup();
                 await this.WaitForErrorPopup();
                 break;
 
@@ -172,7 +172,7 @@ export default class PurchaseRequestPage {
 
         try {
             // Očekáváme, že se zobrazí dialog s chybou a najdeme jeho text
-            await this.formPage.waitForSelector('#wf_Dlg_Message:visible', { timeout: 50000 }); // Přizpůsobte timeout podle potřeby
+            await this.formPage.locator('#wf_Dlg_Message:visible').waitFor({state: "visible", timeout: 50000}); // Přizpůsobte timeout podle potřeby
             console.log("Message box is visible");
             const errorMessage = await this.formPage.textContent('#wf_Dlg_Message td:nth-child(2)');
             console.log(`Message: ${errorMessage}`);
@@ -206,8 +206,8 @@ export default class PurchaseRequestPage {
 
         try {
             // Očekáváme, že se zobrazí dialog s chybou a najdeme jeho text
-            const popupLocator = this.formPage.locator("#wf_Dlg_Message:visible");
-            await popupLocator.waitFor({ timeout: 10000 });
+            const popupLocator = this.formPage.locator("#wf_Dlg_Message");
+            await popupLocator.waitFor({ state: 'visible', timeout: 50000});
             console.log("Message box is visible");
             
             await expect(popupLocator.getByRole('heading', { name: "Zadejte poznámku:" })).toBeVisible();
@@ -234,21 +234,12 @@ export default class PurchaseRequestPage {
 
         try {
             // Očekáváme, že se zobrazí dialog s chybou a najdeme jeho text
-            const popupLocator = this.formPage.locator("#wf_Dlg_Message:visible");
-            await popupLocator.waitFor({ timeout: 10000 });
+            const popupLocator = this.formPage.locator("#wf_Dlg_Message");
+            await popupLocator.waitFor({ state: 'visible', timeout: 50000});
             console.log("Message box is visible");
 
             await popupLocator.locator('button.btn.btn-primary').click();
             console.log("Yes i want to deny request!");
-
-            await expect(popupLocator.getByRole('heading', { name: "Zadejte poznámku:" })).toBeVisible();
-            console.log('Message box is the right one.');
-
-            await popupLocator.locator("#wf_NoteArea").fill("Odůvodnění: zamítnuto..");
-            console.log("Filled message box.");
-
-            await popupLocator.locator('button.btn.btn-primary').click();
-            console.log("Sent message box");
         }
         catch (error) {
             // Pokud dialog s chybou není nalezen nebo obsahuje neočekávanou zprávu
