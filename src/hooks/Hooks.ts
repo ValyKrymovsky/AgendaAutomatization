@@ -14,6 +14,9 @@ import SignedFilesPage from "../pages/SmartSafe/SignedFilePage";
 import AllFilesPage from "../pages/SmartSafe/AllFilesPage";     
 import HomeOfficePage from "../pages/HomeOffice/HomeOfficePage";
 import InvoicePage from "../pages/Invoice/InvoicePage";
+import AbsencePage from "../pages/Absence/AbsencePage";
+import ContractPage from "../pages/Contract/ContractPage";
+import PurchaseRequestPage from "../pages/PurchaseRequest/PurchaseRequestPage";
 
 
 // Vytvoření globálního loggeru
@@ -27,7 +30,10 @@ let loginPage: LoginPage;
 let agendasPage: AgendasPage;
 let testPage: TestPage;
 let homeOfficePage: HomeOfficePage;
-let invociePage: InvoicePage;
+let invoicePage: InvoicePage;
+let absencePage: AbsencePage
+let contractPage: ContractPage;
+let purchaseRequestPage: PurchaseRequestPage;
 let smartSafeManagerPage: SmartSageManagerPage;
 let signedFilesPage: SignedFilesPage;
 let allFilesPage: AllFilesPage;
@@ -75,7 +81,10 @@ Before(async function ({ pickle }) {
     smartSafeManagerPage = new SmartSageManagerPage(page);
     agendasPage = new AgendasPage(page);
     homeOfficePage = new HomeOfficePage(page);
-    invociePage = new InvoicePage(page);
+    invoicePage = new InvoicePage(page);
+    absencePage = new AbsencePage(page);
+    contractPage = new ContractPage(page);
+    purchaseRequestPage = new PurchaseRequestPage(page);
     signedFilesPage = new SignedFilesPage(page);
     signpointPage = new SignPointPage(page);
     allFilesPage = new AllFilesPage(page, logger);
@@ -84,10 +93,13 @@ Before(async function ({ pickle }) {
     this.smartSafeManagerPage = smartSafeManagerPage;
     this.agendasPage = agendasPage;
     this.homeOfficePage = homeOfficePage;
-    this.invociePage = invociePage;
+    this.invociePage = invoicePage;
     this.signedFilesPage = signedFilesPage;
     this.signpointPage = signpointPage;
     this.allFilesPage = allFilesPage;
+    this.absencePage = absencePage;
+    this.contractPage = contractPage;
+    this.purchaseRequestPage = purchaseRequestPage;
 
     await page.goto(process.env.BASEURL);
     //this.logger = createLogger(Options(scenarioName));

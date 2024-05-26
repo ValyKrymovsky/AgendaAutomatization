@@ -63,7 +63,6 @@ export default class ContractPage {
         // wf_txt7 || IČ
         await this.formPage.locator('#wf_txt7').fill("63078236");
         await this.formPage.locator('#wf_btn3').click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         console.log("IČ done");
 
         await this.UploadFile();

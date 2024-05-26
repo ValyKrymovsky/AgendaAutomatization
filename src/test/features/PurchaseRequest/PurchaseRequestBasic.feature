@@ -15,7 +15,6 @@ Scenario: Purchase request basic approve
     Then Check if Purchase request is "Schváleno archivováno"
     Then End Purchase request test
 
-@PurchaseRequest
 @SystemAgenda
 Scenario: Purchase request basic deny 1
     Given Login
@@ -28,7 +27,6 @@ Scenario: Purchase request basic deny 1
     Then Check if Purchase request is "Zamítnuto archivováno"
     Then End Purchase request test
 
-@PurchaseRequest
 @SystemAgenda
 Scenario: Purchase request basic deny 2
     Given Login
