@@ -32,4 +32,6 @@ steps:
     npm install --save-dev winston
 
     npx playwright install
-  displayName: 'npm install and build'
+
+    npm test
+  displayName: 'npm install and run'
