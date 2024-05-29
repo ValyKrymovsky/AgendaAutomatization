@@ -16,8 +16,8 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm install
     npm init
+    npm install
     npm install --save-dev @cucumber/cucumber
     npm install --save-dev @playwright/test
     npm install --save-dev @types/cucumber
