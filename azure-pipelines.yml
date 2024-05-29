@@ -16,7 +16,6 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    npm init
     npm install
     npm install --save-dev @cucumber/cucumber
     npm install --save-dev @playwright/test
@@ -33,6 +32,4 @@ steps:
     npm install --save-dev winston
 
     npx playwright install
-    
-    npm run build
   displayName: 'npm install and build'
