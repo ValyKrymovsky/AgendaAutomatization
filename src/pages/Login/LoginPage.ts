@@ -13,10 +13,10 @@ export default class LoginPage
     private Elements = 
     {
         goToLoginPage: "https://testsofa.602.cz/",
-        firstNextBtn: "Další",
-        secondNextBtn: "Další",
-        //firstNextBtn: "Next",
-        //secondNextBtn: "Next",
+        //firstNextBtn: "Další",
+        //secondNextBtn: "Další",
+        firstNextBtn: "Next",
+        secondNextBtn: "Next",
         userNameLocator: "#UserName",
         userPasswordLocator: "#Password",
     }
