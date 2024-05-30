@@ -32,7 +32,7 @@ Then('Fill out HO {string}', async function(fillOption: string)
     else if (fillOption === "required")
         await homeOfficePage.FillRequiredFields();
 
-    await homeOfficePage.formPage.waitForEvent('close');
+    await homeOfficePage.formPage.close();
     console.log("Filled out form page.");
 });
 
@@ -54,7 +54,7 @@ Then('Open HO instance', async function()
 Then('{string} HO request', async function(action: string)
 {
     await homeOfficePage.CompleteAction(action);
-    await homeOfficePage.formPage.waitForEvent('close');
+    await homeOfficePage.formPage.close();
     console.log("Page closed.");
 });
 
@@ -74,7 +74,7 @@ Then('Check if HO is {string}', async function(action: string)
     agendasPage = null;
 });
 
-Then('Change {string} field to {string} and send', async function(fieldId: string, value: string)
+Then('Change comment to {string} and send', async function(value: string)
 {
-    await homeOfficePage.FillOutSpecificField(fieldId, value);
+    await homeOfficePage.ChangeComment(value);
 });
