@@ -101,6 +101,12 @@ Before(async function ({ pickle }) {
     this.contractPage = contractPage;
     this.purchaseRequestPage = purchaseRequestPage;
 
+    await page.goto('https://httpbin.io/user-agent');
+  
+    // Get the entire page content
+    const pageContent = await page.content();
+    console.log(pageContent);
+
     await page.goto(process.env.BASEURL);
     //this.logger = createLogger(Options(scenarioName));
 });

@@ -65,8 +65,13 @@ export default class ContractPage {
         await this.formPage.locator('#wf_btn3').click();
         console.log("IČ done");
 
-        await this.UploadFile();
+        // await this.UploadFile();
+        await this.UploadFile2();
         console.log("File upload done");
+
+        await this.formPage.locator('#wf_ilb6').click();
+        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+        await this.formPage.getByRole("option", {name: "Smlouva", exact: true}).click();
 
         // wf_txt16 || Komentář
         await this.formPage.locator('#wf_txt16').fill("Test komentář..");
@@ -77,6 +82,7 @@ export default class ContractPage {
         await this.formPage.locator("#wf_acl2").fill("v");
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByText("Development 2, Lukáš").click();
+        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
 
         // wf_txt18 || Komentář schvalovatele
         await this.formPage.locator('#wf_txt18').fill("Test komentář schvalovatele..");
@@ -95,7 +101,7 @@ export default class ContractPage {
         await this.formPage.locator('#wf_txt1').fill("Test předmět smlouvy..");
 
         // wf_txt2 || Popis smlouvy
-        await this.formPage.locator('#wf_txt1').fill("Test popis smlouvy..");
+        await this.formPage.locator('#wf_txt2').fill("Test popis smlouvy..");
 
         // wf_ilb0 || Druh smlouvy
         await this.formPage.locator("#wf_ilb0").click();
@@ -126,11 +132,27 @@ export default class ContractPage {
 
         // wf_txt7 || IČ
         await this.formPage.locator('#wf_txt7').fill("63078236");
+        await this.formPage.locator('#wf_btn3').click();
+        console.log("IČ done");
 
-        await this.UploadFile();
+        // await this.UploadFile();
+        await this.UploadFile2();
+        console.log("File upload done");
 
-        // wf_txt18 || Komentář schvalovatele
-        await this.formPage.locator('#wf_txt18').fill("Test komentář schvalovatele..");
+        await this.formPage.locator('#wf_ilb6').click();
+        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+        await this.formPage.getByRole("option", {name: "Smlouva", exact: true}).click();
+
+        // wf_btn8 || Odeslat button
+        await this.formPage.locator('#wf_btn8').click();
+        await this.WaitForErrorPopup();
+    }
+
+    async ResendAfterReturn()
+    {
+        // wf_txt16 || Komentář
+        await this.formPage.locator('#wf_txt16').fill("Test komentář po vracení..");
+        console.log("Komentář done"); 
 
         // wf_btn8 || Odeslat button
         await this.formPage.locator('#wf_btn8').click();
@@ -195,7 +217,7 @@ export default class ContractPage {
     async WaitForErrorPopup()
     {
         const date = new Date();
-        const logDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDay()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
+        const logDate = `${date.getFullYear()}_${date.getMonth()+1}_${date.getDate()}-${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}`;
 
         try {
             // Očekáváme, že se zobrazí dialog s chybou a najdeme jeho text
@@ -289,14 +311,24 @@ export default class ContractPage {
 
         // Create the DataTransfer and File
         const dataTransfer = await this.formPage.evaluateHandle((data) => {
+            console.log(data);
             const dt = new DataTransfer();
             // Convert the buffer to a hex array
             const file = new File([data.toString('hex')], 'files/4.pdf', { type: 'application/pdf' });
+            console.log(file);
             dt.items.add(file);
             return dt;
         }, buffer);
 
         // Now dispatch
         await this.formPage.dispatchEvent('#wf_btm0_attachment', 'drop', { dataTransfer });
+    }
+
+    async UploadFile2()
+    {
+        await this.formPage.locator('#wf_btm0_attachment').click();
+
+        const prompt = require('prompt-sync')({ sigint: true });
+        const answer = prompt('Stiskněte [Enter] pro pokračování testu...');
     }
 } 

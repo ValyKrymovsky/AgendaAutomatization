@@ -119,6 +119,7 @@ export default class AgendasPage
 
         while(attempt < maxAttempts)
         {
+            await this.agendasPage.waitForLoadState('networkidle', { timeout: 80000 });
             const userLocator = await this.agendasPage.locator(`//a[contains (@href, '${instanceIdent}')]`);
             if (await userLocator.isVisible())
             {
@@ -129,7 +130,6 @@ export default class AgendasPage
                 attempt++;
                 await setTimeout(2000);
                 await (await this.agendasPage.reload()).finished();
-                await this.agendasPage.waitForLoadState('networkidle', { timeout: 80000 });
             }
         }
         

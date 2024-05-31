@@ -62,8 +62,8 @@ export default class PurchaseRequestPage {
         // wf_txt7 || Komentář
         await this.formPage.locator("#wf_txt7").fill("Test komentář...");
 
-        // wf_btm0_attachment || Button pro vložení příloh
-        await this.UploadFile();
+        //await this.UploadFile();
+        await this.UploadFile2();
 
         // wf_btn7 || Button pro odeslání
         await this.formPage.locator("#wf_btn7").click();
@@ -262,14 +262,24 @@ export default class PurchaseRequestPage {
 
         // Create the DataTransfer and File
         const dataTransfer = await this.formPage.evaluateHandle((data) => {
+            console.log(data);
             const dt = new DataTransfer();
             // Convert the buffer to a hex array
             const file = new File([data.toString('hex')], 'files/4.pdf', { type: 'application/pdf' });
+            console.log(file);
             dt.items.add(file);
             return dt;
         }, buffer);
 
         // Now dispatch
         await this.formPage.dispatchEvent('#wf_btm0_attachment', 'drop', { dataTransfer });
+    }
+
+    async UploadFile2()
+    {
+        await this.formPage.locator('#wf_btm0_attachment').click();
+
+        const prompt = require('prompt-sync')({ sigint: true });
+        const answer = prompt('Stiskněte [Enter] pro pokračování testu...');
     }
 } 

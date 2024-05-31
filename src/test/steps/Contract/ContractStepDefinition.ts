@@ -81,6 +81,11 @@ Then('Check if Contract is {string}', async function(action: string)
     await agendasPage.CheckAgendaState(rowLocator, action);
 });
 
+Then('Send returned Contract', async function()
+{
+    await contractPage.ResendAfterReturn();
+});
+
 Then('End Contract test', async function()
 {
     agendasPage = null;

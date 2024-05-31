@@ -269,9 +269,11 @@ export default class InvoicePage {
 
         // Create the DataTransfer and File
         const dataTransfer = await this.formPage.evaluateHandle((data) => {
+            console.log(data);
             const dt = new DataTransfer();
             // Convert the buffer to a hex array
             const file = new File([data.toString('hex')], 'files/4.pdf', { type: 'application/pdf' });
+            console.log(file);
             dt.items.add(file);
             return dt;
         }, buffer);

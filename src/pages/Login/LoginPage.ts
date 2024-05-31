@@ -13,10 +13,10 @@ export default class LoginPage
     private Elements = 
     {
         goToLoginPage: "https://testsofa.602.cz/",
-        //firstNextBtn: "Další",
-        //secondNextBtn: "Další",
-        firstNextBtn: "Next",
-        secondNextBtn: "Next",
+        firstNextBtn: "Další",
+        secondNextBtn: "Další",
+        //firstNextBtn: "Next",
+        //secondNextBtn: "Next",
         userNameLocator: "#UserName",
         userPasswordLocator: "#Password",
     }
@@ -31,7 +31,7 @@ export default class LoginPage
     {
         await this.page.locator(this.Elements.userNameLocator).fill(userName);
         await this.page.getByRole('button', { name: this.Elements.firstNextBtn }).click();
-        await this.page.waitForLoadState('networkidle', { timeout: 5000 });
+        await this.page.waitForLoadState('networkidle', { timeout: 10000 });
         console.log("Clik on next after fill email.");  
     }
 
@@ -39,7 +39,7 @@ export default class LoginPage
     {
         await this.page.locator(this.Elements.userPasswordLocator).fill(userPassword);
         await this.page.getByRole('button', { name: this.Elements.secondNextBtn }).click();
-        await this.page.waitForLoadState('networkidle', { timeout: 5000 });
+        await this.page.waitForLoadState('networkidle', { timeout: 10000 });
         console.log("Click on next after fill password.");  
     }
 }
