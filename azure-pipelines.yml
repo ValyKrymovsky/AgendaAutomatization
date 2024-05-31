@@ -10,10 +10,17 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+
 - task: NodeTool@0
   inputs:
     versionSpec: '18.x'
   displayName: 'Install Node.js'
+
+- download: current
+  artifact: playwrightbdd
+  patterns: |
+    **/*.js
+    **/*.zip
 
 - script: |
     npm install
