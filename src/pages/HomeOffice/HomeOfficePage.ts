@@ -21,14 +21,14 @@ export default class HomeOfficePage {
     async FillAllFields()
     {
         const date = new Date();
-        const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear() - 2000}`;
+        const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
         console.log(formattedDate);
         
         // Datum od || wf_dat2
-        await this.formPage.locator("#wf_dat2").fill(formattedDate);
+        await this.formPage.locator("#wf_dat2").click();
 
         // Datum do || wf_dat3
-        await this.formPage.locator("#wf_dat3").fill(formattedDate);
+        await this.formPage.locator("#wf_dat3").click();
 
         // Čas od || wf_tim0
         await this.formPage.locator("#wf_tim0").fill("8:00");

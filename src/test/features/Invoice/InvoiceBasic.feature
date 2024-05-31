@@ -38,7 +38,7 @@ Scenario: Invoice basic return
     Then Check if Invoice is "Schváleno archivováno"
     Then End test
 
-
+@Invoice
 @SystemAgenda
 Scenario: Invoice basic deny
     Given Login

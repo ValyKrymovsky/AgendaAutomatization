@@ -1,3 +1,0 @@
-src\test\features\HomeOffice\HomeOfficeBasicApprove.feature:4
-src\test\features\HomeOffice\HomeOfficeBasicDeny.feature:4
-src\test\features\HomeOffice\HomeOfficeBasicReturn.feature:4

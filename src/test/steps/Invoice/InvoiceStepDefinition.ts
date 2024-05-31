@@ -31,7 +31,7 @@ Then('Fill out Invoice {string}', async function(fillOption: string)
     else if (fillOption === "required")
         await invoicePage.FillRequiredFields();
 
-    await invoicePage.formPage.waitForEvent('close');
+    await invoicePage.formPage.close();
     console.log("Filled out form page.");
 });
 
@@ -52,14 +52,14 @@ Then('Open Invoice instance', async function()
 Then('{string} Invoice request as approver', async function(action: string)
 {
     await invoicePage.CompleteActionAsApprover(action);
-    await invoicePage.formPage.waitForEvent('close');
+    await invoicePage.formPage.close();
     console.log("Page closed.");
 });
 
 Then('{string} Invoice request as accountant', async function(action: string)
 {
     await invoicePage.CompleteActionAsAccountant(action);
-    await invoicePage.formPage.waitForEvent('close');
+    await invoicePage.formPage.close();
     console.log("Page closed.");
 });
 
