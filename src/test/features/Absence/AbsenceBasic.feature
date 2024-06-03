@@ -1,6 +1,6 @@
 Feature: Absence
 
-
+@Absence
 @SystemAgenda
 Scenario: Absence accountant deny
     Given Login

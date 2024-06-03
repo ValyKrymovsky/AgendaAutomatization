@@ -31,7 +31,7 @@ Then('Fill out Purchase request {string}', async function(fillOption: string)
     else if (fillOption === "required")
         await purchaseRequest.FillRequiredFields();
 
-    await purchaseRequest.formPage.waitForEvent('close');
+    await purchaseRequest.formPage.close();
     console.log("Filled out form page.");
 });
 
@@ -52,14 +52,14 @@ Then('Open Purchase request instance', async function()
 Then('{string} Purchase request as center manager', async function(action: string)
 {
     await purchaseRequest.CompleteActionAsCenterManager(action);
-    await purchaseRequest.formPage.waitForEvent('close');
+    await purchaseRequest.formPage.close();
     console.log("Page closed.");
 });
 
 Then('{string} Purchase request as purchase manager', async function(action: string)
 {
     await purchaseRequest.CompleteActionAsPurchaseManager(action);
-    await purchaseRequest.formPage.waitForEvent('close');
+    await purchaseRequest.formPage.close();
     console.log("Page closed.");
 });
 
