@@ -4,24 +4,40 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- production
+- none
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
-steps:
+stages:
+- stage: Invoice
+  displayName: 'Invoice Test'
+  jobs:
+    - job: TestJob
+      displayName: 'Invoice Test Job'
+      steps:
+      ## Node.js install
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+        displayName: 'Install Node.js'
+      ## Run test
+      - script: echo "Running invoice test"
+        displayName: 'Invoice Test step'
+  
+- stage: HomeOffice
+  displayName: 'HomeOffice Test'
+  jobs:
+    - job: TestJob
+      displayName: 'HomeOffice Test Job'
+      steps:
+      ## Node.js install
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+        displayName: 'Install Node.js'
+      ## Run test
+      - script: echo "Running home office test"
+        displayName: 'HomeOffice Test step'       
 
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.x'
-  displayName: 'Install Node.js'
 
-- download: current
-  artifact: playwrightbdd
-  patterns: |
-    **/*.js
-    **/*.zip
-
-- script: |
-    npm test
-  displayName: 'run test'
