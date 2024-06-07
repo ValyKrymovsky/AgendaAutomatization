@@ -22,7 +22,7 @@ export default class InvoicePage {
     async FillAllFields()
     {
         const date = new Date();
-        const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 
         // wf_dat0 || Došla dne
         await this.formPage.locator("#wf_dat0").fill(formattedDate);
