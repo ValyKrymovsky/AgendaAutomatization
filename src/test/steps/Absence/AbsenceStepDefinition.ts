@@ -32,7 +32,7 @@ Then('Fill out Absence {string}', async function(fillOption: string)
     else if (fillOption === "required")
         await absencePage.FillRequiredFields();
 
-    await absencePage.formPage.waitForEvent('close');
+    await absencePage.formPage.close();
     console.log("Filled out form page.");
 });
 
@@ -53,14 +53,14 @@ Then('Open Absence instance', async function()
 Then('{string} Absence request as approver', async function(action: string)
 {
     await absencePage.CompleteActionAsApprover(action);
-    await absencePage.formPage.waitForEvent('close');
+    await absencePage.formPage.close();
     console.log("Page closed.");
 });
 
 Then('{string} Absence request as accountant', async function(action: string)
 {
     await absencePage.CompleteActionAsAccountant(action);
-    await absencePage.formPage.waitForEvent('close');
+    await absencePage.formPage.close();
     console.log("Page closed.");
 });
 

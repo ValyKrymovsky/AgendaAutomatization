@@ -21,13 +21,14 @@ export default class HomeOfficePage {
     async FillAllFields()
     {
         const date = new Date();
-        const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+        console.log(formattedDate);
         
         // Datum od || wf_dat2
-        await this.formPage.locator("#wf_dat2").fill(formattedDate);
+        await this.formPage.locator("#wf_dat2").click();
 
         // Datum do || wf_dat3
-        await this.formPage.locator("#wf_dat3").fill(formattedDate);
+        await this.formPage.locator("#wf_dat3").click();
 
         // Čas od || wf_tim0
         await this.formPage.locator("#wf_tim0").fill("8:00");
@@ -44,6 +45,7 @@ export default class HomeOfficePage {
         // Zdůvodnění || wf_txt0
         await this.formPage.locator("#wf_txt0").fill("Test zdůvodnění");
 
+        //await setTimeout(() => {}, 200000);
         // wf_btn5 || Tlačítko odeslat
         await this.formPage.locator("#wf_btn5").click();
 
@@ -61,11 +63,9 @@ export default class HomeOfficePage {
         await this.WaitForErrorMessage();
     }
 
-    async FillOutSpecificField(field: string, value: string)
+    async ChangeComment(value: string)
     {
-        const fieldLocator = this.formPage.locator(`#${field}`);
-        await fieldLocator.clear();
-        await fieldLocator.fill(value);
+        await this.formPage.locator("#wf_txt0").fill(value);
 
         // wf_btn5 || Tlačítko odeslat
         await this.formPage.locator("#wf_btn5").click();
@@ -113,16 +113,16 @@ export default class HomeOfficePage {
         switch(action)
         {
             case "Approve":
-                await this.formPage.locator("#wf_rad0").check();
+                await this.formPage.locator("#wf_rad0").click();
                 break;
             
             case "Deny":
-                await this.formPage.locator("#wf_rad1").check();
+                await this.formPage.locator("#wf_rad1").click();
                 await this.formPage.locator("#wf_txt0").fill("Odůvodění: zamítnuto...");
                 break;
 
             case "Return":
-                await this.formPage.locator("#wf_rad2").check();
+                await this.formPage.locator("#wf_rad2").click();
                 await this.formPage.locator("#wf_txt0").fill("Odůvodění: vráceno...");
                 break;
         }
@@ -133,7 +133,7 @@ export default class HomeOfficePage {
         await this.WaitForErrorMessage();
     }
 
-    async getRandomInt(max)
+    getRandomInt(max)
     {
         return Math.floor(Math.random() * max);
     }
