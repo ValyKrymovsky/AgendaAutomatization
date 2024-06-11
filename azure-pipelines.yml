@@ -13,8 +13,8 @@ pool:
 
 
 variables:
-  npm_config_cache: $(Pipeline.Workspace)/node_modules
-  browser_cache: $(Agent.WorkFolder)/chromium-1117/chrome-win
+  npm_packages_path: $(Pipeline.Workspace)/node_modules
+  browser_path: $(Agent.WorkFolder)/chromium-1117/chrome-win
 
 
 stages:
@@ -24,25 +24,7 @@ stages:
     - job: InstallJob
       displayName: 'Node.js install job'
       steps:
-      - task: Cache@2
-        inputs:
-          key: 'npm | "$(Agent.OS)" | package-lock.json'
-          restoreKeys: |
-            npm | "$(Agent.OS)"
-          path: $(npm_config_cache)
-          cacheHitVar: NPM_CACHE_RESTORED
-        displayName: Cache npm packages
-        
 
-      - task: Cache@2
-        inputs:
-          key: 'browser | "$(Agent.OS)" | package-lock.json'
-          restoreKeys: |
-            browser | "$(Agent.OS)"
-          path: $(browser_cache)
-          cacheHitVar: BROWSER_CACHE_RESTORED
-        displayName: Cache browser download
-        
 
       ## Node.js install
       - task: NodeTool@0
@@ -77,7 +59,18 @@ stages:
             npm install --save-dev typescript
             npm install --save-dev winston
             npx playwright install --with-deps chromium
-          
+      
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: $(npm_packages_path)
+          artifactName: NpmPackageArtifact
+
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: $(browser_path)
+          artifactName: BrowserArtifact
+
 
       - task: CmdLine@2
         inputs:
@@ -93,14 +86,13 @@ stages:
     - job: InvoiceTestJob
       displayName: 'Invoice Test Job'
       steps:
-      - task: Npm@1
-        displayName: 'Download cached dependencies'
+      - task: DownloadPipelineArtifact@2
         inputs:
-          command: custom
-          verbose: false
-          customCommand: 'ci'
-        condition: and(ne(variables.CACHE_RESTORED, 'true'), ne(variables.BROWSER_CACHE_RESTORED, 'true'))
+          artifact: NpmPackageArtifact
 
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: BrowserArtifact
 
       - task: PowerShell@2
         inputs:
