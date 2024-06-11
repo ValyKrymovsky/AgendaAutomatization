@@ -37,6 +37,7 @@ stages:
           npm install --save-dev typescript
           npm install --save-dev winston
           npx playwright install chrome
+          npm test -- --tags "@Invoice"
         displayName: 'Install Node.js and all packages'
 
 - stage: Invoice
