@@ -25,6 +25,7 @@ stages:
           restoreKeys: |
             npm | "$(Agent.OS)"
           path: $(npm_config_cache)
+          cacheHitVar: CACHE_RESTORED
         displayName: Cache npm packages
         
       ## Node.js install
@@ -58,6 +59,14 @@ stages:
     - job: InvoiceTestJob
       displayName: 'Invoice Test Job'
       steps:
+      - task: Npm@1
+        displayName: 'Download cached npm dependencies'
+        inputs:
+          command: custom
+          verbose: false
+          customCommand: 'ci'
+        condition: ne(variables.CACHE_RESTORED, 'true')
+
       ## Run test
       - script: npm test -- --tags "@Invoice"
         displayName: 'Invoice Test step'
@@ -70,6 +79,14 @@ stages:
       displayName: 'HomeOffice Test Job'
       steps:
       ## Run test
+      - task: Npm@1
+        displayName: 'Download cached npm dependencies'
+        inputs:
+          command: custom
+          verbose: false
+          customCommand: 'ci'
+        condition: ne(variables.CACHE_RESTORED, 'true')
+        
       - script: npm test -- --tags "@HomeOffice"
         displayName: 'HomeOffice Test step'       
 
