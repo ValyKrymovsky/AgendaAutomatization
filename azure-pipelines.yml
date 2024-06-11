@@ -101,8 +101,9 @@ stages:
       - task: PowerShell@2
         inputs:
           targetType: inline
-          script: $Env:PLAYWRIGHT_BROWSERS_PATH="$(Pipeline.Workspace)"
-                  npm test -- --tags "@Invoice"
+          script: |
+            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Pipeline.Workspace)"
+            npm test -- --tags "@Invoice"
 
       ## Run test
       - script: npm test -- --tags "@Invoice"
