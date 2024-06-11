@@ -14,7 +14,7 @@ pool:
 
 variables:
   npm_config_cache: $(Pipeline.Workspace)/node_modules
-  browser_cache: $(Pipeline.Workspace)/
+  browser_cache: $(Pipeline.Workspace)/chromium-1117/chrome-win
 
 
 stages:
@@ -40,7 +40,7 @@ stages:
           restoreKeys: |
             browser | "$(Agent.OS)"
           path: $(browser_cache)
-          cacheHitVar: Browser_CACHE_RESTORED
+          cacheHitVar: BROWSER_CACHE_RESTORED
         displayName: Cache browser download
         
 
@@ -99,7 +99,7 @@ stages:
           command: custom
           verbose: false
           customCommand: 'ci'
-        condition: ne(variables.CACHE_RESTORED, 'true')
+        condition: and(ne(variables.CACHE_RESTORED, 'true'), ne(variables.BROWSER_CACHE_RESTORED, 'true'))
 
 
       - task: PowerShell@2
