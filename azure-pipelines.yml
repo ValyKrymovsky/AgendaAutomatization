@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: windows-latest
 
+variables:
+  npm_config_cache: $(Pipeline.Workspace)/.npm
+
 stages:
 - stage: NodeJs
   displayName: 'Install Node.js'
@@ -22,23 +25,31 @@ stages:
           versionSource: 'spec'
           versionSpec: '18.x'
           checkLatest: true
-      - script: |
-          npm install --save-dev @cucumber/cucumber
-          npm install --save-dev @playwright/test
-          npm install --save-dev @types/cucumber
-          npm install --save-dev @types/node
-          npm install --save-dev chai
-          npm install --save-dev cross-env
-          npm install --save-dev dotenv
-          npm install --save-dev fs-extra
-          npm install --save-dev multiple-cucumber-html-reporter
-          npm install --save-dev playwright
-          npm install --save-dev ts-node
-          npm install --save-dev typescript
-          npm install --save-dev winston
-          npx playwright install chrome
-          npm test -- --tags "@Invoice"
-        displayName: 'Install Node.js and all packages'
+      - task: CmdLine@2
+        inputs:
+          script: |
+            npm install --save-dev @cucumber/cucumber
+            npm install --save-dev @playwright/test
+            npm install --save-dev @types/cucumber
+            npm install --save-dev @types/node
+            npm install --save-dev chai
+            npm install --save-dev cross-env
+            npm install --save-dev dotenv
+            npm install --save-dev fs-extra
+            npm install --save-dev multiple-cucumber-html-reporter
+            npm install --save-dev playwright
+            npm install --save-dev ts-node
+            npm install --save-dev typescript
+            npm install --save-dev winston
+            npx playwright install chrome
+        
+      - task: Cache@2
+        inputs:
+          key: 'npm | "$(Agent.OS)" | package-lock.json'
+          restoreKeys: |
+            npm | "$(Agent.OS)"
+          path: $(npm_config_cache)
+        displayName: Cache npm packages
 
 - stage: Invoice
   dependsOn: NodeJs
