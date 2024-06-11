@@ -19,6 +19,14 @@ stages:
     - job: InstallJob
       displayName: 'Node.js install job'
       steps:
+      - task: Cache@2
+        inputs:
+          key: 'npm | "$(Agent.OS)" | package-lock.json'
+          restoreKeys: |
+            npm | "$(Agent.OS)"
+          path: $(npm_config_cache)
+        displayName: Cache npm packages
+        
       ## Node.js install
       - task: NodeTool@0
         inputs:
@@ -42,14 +50,6 @@ stages:
             npm install --save-dev typescript
             npm install --save-dev winston
             npx playwright install chrome
-        
-      - task: Cache@2
-        inputs:
-          key: 'npm | "$(Agent.OS)" | package-lock.json'
-          restoreKeys: |
-            npm | "$(Agent.OS)"
-          path: $(npm_config_cache)
-        displayName: Cache npm packages
 
 - stage: Invoice
   dependsOn: NodeJs
