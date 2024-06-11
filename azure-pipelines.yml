@@ -45,6 +45,7 @@ stages:
             chdir
             chdir C
             chdir
+          workingDirectory: C:/
         displayName: Getting current directory
         
       ## Node.js install
