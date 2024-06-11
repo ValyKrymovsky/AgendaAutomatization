@@ -102,6 +102,7 @@ stages:
         inputs:
           targetType: inline
           script: $Env:PLAYWRIGHT_BROWSERS_PATH="$(Pipeline.Workspace)"
+                  npm test -- --tags "@Invoice"
 
       ## Run test
       - script: npm test -- --tags "@Invoice"
