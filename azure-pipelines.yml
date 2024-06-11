@@ -11,7 +11,7 @@ pool:
 
 variables:
   npm_config_cache: $(Pipeline.Workspace)/node_modules
-  browser_cache: C:/Users/VssAdministrator/AppData/Local/ms-playwright
+  browser_cache: /Users/VssAdministrator/AppData/Local/ms-playwright
 
 stages:
 - stage: NodeJs
@@ -37,6 +37,14 @@ stages:
           path: $(browser_cache)
           cacheHitVar: Browser_CACHE_RESTORED
         displayName: Cache browser download
+      
+      - task: CmdLine@2
+        inputs:
+          script: |
+            echo  '$(System.DefaultWorkingDirectory)'
+            dir
+            dir subfoldername
+        displayName: Getting current directory
         
       ## Node.js install
       - task: NodeTool@0
