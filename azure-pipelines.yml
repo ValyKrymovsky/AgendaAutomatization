@@ -96,10 +96,12 @@ stages:
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: NpmPackageArtifact
+          targetPath: '$(Agent.WorkFolder)/s/node_modules'
 
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: BrowserArtifact
+          targetPath: '$(Agent.WorkFolder)'
 
 
       - task: CmdLine@2
