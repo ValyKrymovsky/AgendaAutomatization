@@ -22,7 +22,7 @@ stages:
           versionSource: 'spec'
           versionSpec: '18.x'
           checkLatest: true
-      - script:
+      - script: |
           npm install --save-dev @cucumber/cucumber
           npm install --save-dev @playwright/test
           npm install --save-dev @types/cucumber
