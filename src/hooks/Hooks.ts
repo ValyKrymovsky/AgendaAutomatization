@@ -45,10 +45,13 @@ let context: BrowserContext;
 
 BeforeAll(async function() 
 {   
+    console.log("start of BeforeAll.");
     // Get env
     GetEnviroment();
+    console.log("Got environment.");
     // Set browser with basic options
     browser = await InvokeBrowser(); 
+    console.log("Invoked browser.");
 }); 
 
 Before(async function ({ pickle }) {
@@ -63,7 +66,7 @@ Before(async function ({ pickle }) {
         },
         
     });
-
+    console.log("Created browser context.");
     await context.tracing.start({
         name: scenarioName,
         title: pickle.name,
