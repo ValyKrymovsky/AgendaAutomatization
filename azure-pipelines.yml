@@ -50,7 +50,7 @@ stages:
             npm install --save-dev ts-node
             npm install --save-dev typescript
             npm install --save-dev winston
-            npx playwright install chrome
+            npx playwright install chromium
 
 - stage: Invoice
   dependsOn: NodeJs
