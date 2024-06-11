@@ -11,7 +11,7 @@ pool:
 
 variables:
   npm_config_cache: $(Pipeline.Workspace)/node_modules
-  browser_cache: C:/Users/VssAdministrator/AppData/Local/ms-playwright/chromium-1117
+  browser_cache: C:/Users/VssAdministrator/AppData/Local/ms-playwright
 
 stages:
 - stage: NodeJs
