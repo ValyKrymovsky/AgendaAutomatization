@@ -2,7 +2,7 @@ import { BrowserContext, LaunchOptions, Page, chromium, firefox } from "playwrig
 
 const options: LaunchOptions = 
 {
-    headless: true,
+    headless: false,
     args: ['--start-maximized']
 }
 
