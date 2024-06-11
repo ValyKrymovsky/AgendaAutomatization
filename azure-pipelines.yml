@@ -3,11 +3,6 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-
-trigger:
-- none
-
-
 pool:
   vmImage: windows-latest
 
@@ -32,12 +27,7 @@ stages:
           versionSource: 'spec'
           versionSpec: '18.x'
           checkLatest: true
-
-
-      - task: CmdLine@2
-        inputs:
-          script: 'tree $(Agent.WorkFolder)\1 /f'
-        displayName: Pipeline workspace tree pre-browser install
+        displayName: Node.js installation
 
 
       - task: PowerShell@2
@@ -59,31 +49,21 @@ stages:
             npm install --save-dev typescript
             npm install --save-dev winston
             npx playwright install --with-deps chromium
-
-
-      - task: CmdLine@2
-        inputs:
-          script: 'tree $(Agent.WorkFolder)\1 /f'
-        displayName: Pipeline workspace tree pre-browser install
+        displayName: Package and browser installation
         
 
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: $(npm_packages_path)
           artifactName: NpmPackageArtifact
+        displayName: Npm package artifact publish
 
 
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: $(browser_path)
           artifactName: BrowserArtifact
-
-
-      - task: CmdLine@2
-        inputs:
-          script: 'tree $(Agent.WorkFolder)\1 /f'
-        displayName: Pipeline workspace tree post-browser install
-
+        displayName: Browser artifact publish
 
 
 - stage: Invoice
@@ -93,21 +73,20 @@ stages:
     - job: InvoiceTestJob
       displayName: 'Invoice Test Job'
       steps:
+
+
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: NpmPackageArtifact
           targetPath: '$(Pipeline.Workspace)/s/node_modules/'
+        displayName: Npm package actifact download
+
 
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: BrowserArtifact
           targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1117/'
-
-
-      - task: CmdLine@2
-        inputs:
-          script: 'tree $(Agent.WorkFolder)\1 /f'
-        displayName: Pipeline workspace tree pre-browser install
+        displayName: Browser actifact download
 
 
       - task: PowerShell@2
@@ -116,6 +95,7 @@ stages:
           script: |
             $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
             npm test -- --tags "@Invoice"
+        displayName: Test script
 
   
 - stage: HomeOffice
@@ -125,21 +105,20 @@ stages:
     - job: HomeOfficeJobTest
       displayName: 'HomeOffice Test Job'
       steps:
+      
+
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: NpmPackageArtifact
           targetPath: '$(Pipeline.Workspace)/s/node_modules/'
+        displayName: Npm package actifact download
+
 
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: BrowserArtifact
           targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1117/'
-
-
-      - task: CmdLine@2
-        inputs:
-          script: 'tree $(Agent.WorkFolder)\1 /f'
-        displayName: Pipeline workspace tree pre-browser install
+        displayName: Browser actifact download
 
 
       - task: PowerShell@2
@@ -148,4 +127,5 @@ stages:
           script: |
             $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
             npm test -- --tags "@HomeOffice"
+        displayName: Test script
 
