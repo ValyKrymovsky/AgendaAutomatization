@@ -98,6 +98,11 @@ stages:
           customCommand: 'ci'
         condition: ne(variables.CACHE_RESTORED, 'true')
 
+      - task: PowerShell@2
+        inputs:
+          targetType: inline
+          script: $Env:PLAYWRIGHT_BROWSERS_PATH="$(Pipeline.Workspace)"
+
       ## Run test
       - script: npm test -- --tags "@Invoice"
         displayName: 'Invoice Test step'
@@ -117,7 +122,12 @@ stages:
           verbose: false
           customCommand: 'ci'
         condition: ne(variables.CACHE_RESTORED, 'true')
-        
+
+      - task: PowerShell@2
+        inputs:
+          targetType: inline
+          script: $Env:PLAYWRIGHT_BROWSERS_PATH="$(Pipeline.Workspace)"
+          
       - script: npm test -- --tags "@HomeOffice"
         displayName: 'HomeOffice Test step'       
 
