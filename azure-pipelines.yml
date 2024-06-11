@@ -11,6 +11,7 @@ pool:
 
 variables:
   npm_config_cache: $(Pipeline.Workspace)/node_modules
+  browser_cache: C:/Users/VssAdministrator/AppData/Local/ms-playwright/**/chrome.exe
 
 stages:
 - stage: NodeJs
@@ -25,8 +26,17 @@ stages:
           restoreKeys: |
             npm | "$(Agent.OS)"
           path: $(npm_config_cache)
-          cacheHitVar: CACHE_RESTORED
+          cacheHitVar: NPM_CACHE_RESTORED
         displayName: Cache npm packages
+        
+      - task: Cache@2
+        inputs:
+          key: 'browser | "$(Agent.OS)" | package-lock.json'
+          restoreKeys: |
+            browser | "$(Agent.OS)"
+          path: $(browser_cache)
+          cacheHitVar: Browser_CACHE_RESTORED
+        displayName: Cache browser download
         
       ## Node.js install
       - task: NodeTool@0
@@ -50,8 +60,7 @@ stages:
             npm install --save-dev ts-node
             npm install --save-dev typescript
             npm install --save-dev winston
-            npx playwright install
-            npx playwright install-deps
+            npx playwright install chromium --with-deps
 
 - stage: Invoice
   dependsOn: NodeJs
@@ -61,7 +70,7 @@ stages:
       displayName: 'Invoice Test Job'
       steps:
       - task: Npm@1
-        displayName: 'Download cached npm dependencies'
+        displayName: 'Download cached dependencies'
         inputs:
           command: custom
           verbose: false
