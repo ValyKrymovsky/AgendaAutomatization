@@ -117,35 +117,35 @@ stages:
             $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
             npm test -- --tags "@Invoice"
 
-
-      ## Run test
-      - script: npm test -- --tags "@Invoice"
-        displayName: 'Invoice Test step'
   
 - stage: HomeOffice
   dependsOn: NodeJs
   displayName: 'HomeOffice Test'
   jobs:
-    - job: HomeOfficeTestJob
+    - job: HomeOfficeJobTest
       displayName: 'HomeOffice Test Job'
       steps:
-      ## Run test
-      - task: Npm@1
-        displayName: 'Download cached npm dependencies'
+      - task: DownloadPipelineArtifact@2
         inputs:
-          command: custom
-          verbose: false
-          customCommand: 'ci'
-        condition: ne(variables.CACHE_RESTORED, 'true')
+          artifact: NpmPackageArtifact
+          targetPath: '$(Pipeline.Workspace)/s/node_modules/'
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: BrowserArtifact
+          targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1117/'
+
+
+      - task: CmdLine@2
+        inputs:
+          script: 'tree $(Agent.WorkFolder)\1 /f'
+        displayName: Pipeline workspace tree pre-browser install
 
 
       - task: PowerShell@2
         inputs:
           targetType: inline
-          script: $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)"
-
-
-      - script: npm test -- --tags "@HomeOffice"
-        displayName: 'HomeOffice Test step'       
-
-
+          script: |
+            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
+            npm test -- --tags "@HomeOffice"
+            
