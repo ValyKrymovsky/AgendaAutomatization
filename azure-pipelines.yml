@@ -43,7 +43,7 @@ stages:
           script: |
             echo  'Default working directory is $(System.DefaultWorkingDirectory)'
             chdir
-            chdir $(browser_cache)
+            cd $(browser_cache)
             chdir
           workingDirectory: C:/
         displayName: Getting current directory
