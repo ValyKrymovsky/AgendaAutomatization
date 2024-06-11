@@ -9,7 +9,7 @@ trigger:
 
 
 pool:
-  vmImage: windows-latest
+  vmImage: ubuntu-latest
 
 
 variables:
@@ -148,4 +148,4 @@ stages:
           script: |
             $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
             npm test -- --tags "@HomeOffice"
-            
+
