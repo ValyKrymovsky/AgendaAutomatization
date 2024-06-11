@@ -14,7 +14,7 @@ pool:
 
 variables:
   npm_config_cache: $(Pipeline.Workspace)/node_modules
-  browser_cache: $(Pipeline.Workspace)/chromium-1117/chrome-win
+  browser_cache: $(Agent.WorkFolder)/chromium-1117/chrome-win
 
 
 stages:
