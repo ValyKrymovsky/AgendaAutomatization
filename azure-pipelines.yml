@@ -41,9 +41,8 @@ stages:
       - task: CmdLine@2
         inputs:
           script: |
-            echo  '$(System.DefaultWorkingDirectory)'
-            dir
-            dir subfoldername
+            echo  'Default working directory is $(System.DefaultWorkingDirectory)'
+            echo 'chdir: chdir'
         displayName: Getting current directory
         
       ## Node.js install
