@@ -3,11 +3,19 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+
 trigger:
 - none
 
+
 pool:
   vmImage: windows-latest
+
+
+variables:
+  npm_packages_path: $(Pipeline.Workspace)/s/node_modules
+  browser_path: $(Agent.WorkFolder)/chromium-1117
+
 
 stages:
 - stage: NodeJs
@@ -16,13 +24,67 @@ stages:
     - job: InstallJob
       displayName: 'Node.js install job'
       steps:
+
+
       ## Node.js install
       - task: NodeTool@0
         inputs:
           versionSource: 'spec'
           versionSpec: '18.x'
           checkLatest: true
-        displayName: 'Install Node.js'
+
+
+      - task: CmdLine@2
+        inputs:
+          script: 'tree $(Agent.WorkFolder)\1 /f'
+        displayName: Pipeline workspace tree pre-browser install
+
+
+      - task: PowerShell@2
+        inputs:
+          targetType: inline
+          script: |
+            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)"
+            npm install --save-dev @cucumber/cucumber
+            npm install --save-dev @playwright/test
+            npm install --save-dev @types/cucumber
+            npm install --save-dev @types/node
+            npm install --save-dev chai
+            npm install --save-dev cross-env
+            npm install --save-dev dotenv
+            npm install --save-dev fs-extra
+            npm install --save-dev multiple-cucumber-html-reporter
+            npm install --save-dev playwright
+            npm install --save-dev ts-node
+            npm install --save-dev typescript
+            npm install --save-dev winston
+            npx playwright install --with-deps chromium
+
+
+      - task: CmdLine@2
+        inputs:
+          script: 'tree $(Agent.WorkFolder)\1 /f'
+        displayName: Pipeline workspace tree pre-browser install
+        
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: $(npm_packages_path)
+          artifactName: NpmPackageArtifact
+
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: $(browser_path)
+          artifactName: BrowserArtifact
+
+
+      - task: CmdLine@2
+        inputs:
+          script: 'tree $(Agent.WorkFolder)\1 /f'
+        displayName: Pipeline workspace tree post-browser install
+
+
 
 - stage: Invoice
   dependsOn: NodeJs
@@ -31,19 +93,59 @@ stages:
     - job: InvoiceTestJob
       displayName: 'Invoice Test Job'
       steps:
-      ## Run test
-      - script: npm test -- --tags "@Invoice"
-        displayName: 'Invoice Test step'
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: NpmPackageArtifact
+          targetPath: '$(Pipeline.Workspace)/s/node_modules/'
+
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: BrowserArtifact
+          targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1117/'
+
+
+      - task: CmdLine@2
+        inputs:
+          script: 'tree $(Agent.WorkFolder)\1 /f'
+        displayName: Pipeline workspace tree pre-browser install
+
+
+      - task: PowerShell@2
+        inputs:
+          targetType: inline
+          script: |
+            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
+            npm test -- --tags "@Invoice"
+
   
 - stage: HomeOffice
   dependsOn: NodeJs
   displayName: 'HomeOffice Test'
   jobs:
-    - job: HomeOfficeTestJob
+    - job: HomeOfficeJobTest
       displayName: 'HomeOffice Test Job'
       steps:
-      ## Run test
-      - script: npm test -- --tags "@HomeOffice"
-        displayName: 'HomeOffice Test step'       
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: NpmPackageArtifact
+          targetPath: '$(Pipeline.Workspace)/s/node_modules/'
 
+      - task: DownloadPipelineArtifact@2
+        inputs:
+          artifact: BrowserArtifact
+          targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1117/'
+
+
+      - task: CmdLine@2
+        inputs:
+          script: 'tree $(Agent.WorkFolder)\1 /f'
+        displayName: Pipeline workspace tree pre-browser install
+
+
+      - task: PowerShell@2
+        inputs:
+          targetType: inline
+          script: |
+            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
+            npm test -- --tags "@HomeOffice"
 
