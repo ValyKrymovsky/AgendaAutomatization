@@ -43,8 +43,6 @@ stages:
           script: |
             echo  'Default working directory is $(System.DefaultWorkingDirectory)'
             chdir
-            chdir C
-            chdir
           workingDirectory: C:/
         displayName: Getting current directory
         
