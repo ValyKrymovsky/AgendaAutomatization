@@ -14,7 +14,7 @@ pool:
 
 variables:
   npm_packages_path: $(Pipeline.Workspace)/s/node_modules
-  browser_path: $(Agent.WorkFolder)/chromium-1117/chrome-win
+  browser_path: $(Agent.WorkFolder)/chromium-1117
 
 
 stages:
@@ -114,7 +114,7 @@ stages:
         inputs:
           targetType: inline
           script: |
-            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
+            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers/chromium-1117"
             npm test -- --tags "@Invoice"
 
 
