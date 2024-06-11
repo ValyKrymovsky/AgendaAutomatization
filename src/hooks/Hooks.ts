@@ -56,6 +56,7 @@ BeforeAll(async function()
 
 Before(async function ({ pickle }) {
     const scenarioName = `${pickle.name}_${pickle.id}`;
+    console.log(`Scenario name: ${scenarioName}`);
 
     // Setup context
     context = await browser.newContext({
