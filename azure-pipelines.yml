@@ -13,7 +13,7 @@ pool:
 
 
 variables:
-  npm_packages_path: $(Pipeline.Workspace)/node_modules
+  npm_packages_path: $(Pipeline.Workspace)/s/node_modules
   browser_path: $(Agent.WorkFolder)/chromium-1117/chrome-win
 
 
