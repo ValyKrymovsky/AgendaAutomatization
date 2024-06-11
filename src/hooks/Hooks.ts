@@ -73,9 +73,11 @@ Before(async function ({ pickle }) {
         sources: true,
         screenshots: true, snapshots: true
     });
-
+    console.log("Started tracing.");
     const page = await context.newPage();
+    console.log("Created new page.");
     this.logger = createLogger(Options(pickle.name));
+    console.log("Created logger.");
     this.logger = logger;
     this.page = page;
     // Inicializace POM
@@ -103,12 +105,12 @@ Before(async function ({ pickle }) {
     this.absencePage = absencePage;
     this.contractPage = contractPage;
     this.purchaseRequestPage = purchaseRequestPage;
-  
-    // Get the entire page content
-    const pageContent = await page.content();
-    console.log(pageContent);
+
+    console.log("Created and asigned all pages.");
 
     await page.goto(process.env.BASEURL);
+
+    console.log("Redirected to sofa login page.");
     //this.logger = createLogger(Options(scenarioName));
 });
 
