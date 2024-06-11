@@ -10,7 +10,7 @@ pool:
   vmImage: windows-latest
 
 variables:
-  npm_config_cache: $(Pipeline.Workspace)/.npm
+  npm_config_cache: $(Pipeline.Workspace)/node_modules
 
 stages:
 - stage: NodeJs
