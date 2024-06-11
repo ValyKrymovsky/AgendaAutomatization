@@ -42,7 +42,9 @@ stages:
         inputs:
           script: |
             echo  'Default working directory is $(System.DefaultWorkingDirectory)'
-            echo 'chdir: chdir'
+            echo 'chdir: ' chdir
+            chdir C
+            echo 'chdir: ' chdir
         displayName: Getting current directory
         
       ## Node.js install
