@@ -96,12 +96,12 @@ stages:
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: NpmPackageArtifact
-          targetPath: '$(Agent.WorkFolder)/s/node_modules'
+          targetPath: '$(Pipeline.Workspace)/s/node_modules/'
 
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: BrowserArtifact
-          targetPath: '$(Agent.WorkFolder)'
+          targetPath: '$(Pipeline.Workspace)/browsers'
 
 
       - task: CmdLine@2
@@ -114,7 +114,7 @@ stages:
         inputs:
           targetType: inline
           script: |
-            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)"
+            $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/browsers"
             npm test -- --tags "@Invoice"
 
 
