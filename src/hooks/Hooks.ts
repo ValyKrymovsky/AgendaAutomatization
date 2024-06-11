@@ -75,6 +75,7 @@ Before(async function ({ pickle }) {
         screenshots: true, snapshots: true
     });
     console.log("Started tracing.");
+    console.log(context.backgroundPages().length)
     const page = await context.newPage();
     console.log("Created new page.");
     this.logger = createLogger(Options(pickle.name));
