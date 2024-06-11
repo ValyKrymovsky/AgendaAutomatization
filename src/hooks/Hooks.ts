@@ -100,8 +100,6 @@ Before(async function ({ pickle }) {
     this.absencePage = absencePage;
     this.contractPage = contractPage;
     this.purchaseRequestPage = purchaseRequestPage;
-
-    await page.goto('https://httpbin.io/user-agent');
   
     // Get the entire page content
     const pageContent = await page.content();
