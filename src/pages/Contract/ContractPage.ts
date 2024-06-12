@@ -321,7 +321,8 @@ export default class ContractPage {
         }, buffer);
 
         // Now dispatch
-        await this.formPage.dispatchEvent('#wf_btm0_attachment', 'drop', { dataTransfer });
+        await this.formPage.locator('#wf_btm0_attachment').dispatchEvent('drop', { dataTransfer });
+        console.log("test test");
     }
 
     async UploadFile2()
