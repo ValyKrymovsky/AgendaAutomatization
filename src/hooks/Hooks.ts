@@ -77,7 +77,9 @@ Before(async function ({ pickle }) {
     });
     
     //console.log("Started tracing.");
-    console.log(context.browser().browserType().name())
+    console.log(context.browser().browserType().name());
+    console.log(context.browser().contexts().length);
+    console.log(context.browser().isConnected());
     console.log(context.backgroundPages().length);
     const page = await context.newPage();
     console.log(context.backgroundPages().length);
