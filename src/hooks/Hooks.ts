@@ -80,8 +80,8 @@ Before(async function ({ pickle }) {
     console.log(context.browser().browserType().name());
     console.log(context.browser().contexts().length);
     console.log(context.browser().isConnected());
-    console.log(context.pages().length);
     const page = await context.newPage();
+    console.log(context.pages().length);
     console.log(context.backgroundPages().length);
     console.log(context.backgroundPages().length);
     console.log(context.backgroundPages().length);
