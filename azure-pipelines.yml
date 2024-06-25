@@ -9,7 +9,7 @@ pool:
 
 variables:
   npm_packages_path: $(Pipeline.Workspace)/s/node_modules
-  browser_path: $(Agent.WorkFolder)/chromium-1117
+  browser_path: $(Agent.WorkFolder)/chromium-1124
 
 
 stages:
@@ -85,7 +85,7 @@ stages:
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: BrowserArtifact
-          targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1117/'
+          targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1124/'
         displayName: Browser actifact download
 
 
@@ -117,7 +117,7 @@ stages:
       - task: DownloadPipelineArtifact@2
         inputs:
           artifact: BrowserArtifact
-          targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1117/'
+          targetPath: '$(Pipeline.Workspace)/s/browsers/chromium-1124/'
         displayName: Browser actifact download
 
 
