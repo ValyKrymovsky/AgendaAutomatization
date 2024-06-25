@@ -80,17 +80,11 @@ Before(async function ({ pickle }) {
     console.log(context.browser().browserType().name());
     console.log(context.browser().contexts().length);
     console.log(context.browser().isConnected());
-    const page = await context.newPage();
+    this.page = await context.newPage();
     console.log(context.pages().length);
-    console.log(context.backgroundPages().length);
-    console.log(context.backgroundPages().length);
-    console.log(context.backgroundPages().length);
-    console.log(context.backgroundPages().length);
-    console.log(context.backgroundPages().length);
     this.logger = createLogger(Options(pickle.name));
     console.log("Created logger.");
     this.logger = logger;
-    this.page = page;
     // Inicializace POM
     testPage = new TestPage(page);
     loginPage = new LoginPage(page);
