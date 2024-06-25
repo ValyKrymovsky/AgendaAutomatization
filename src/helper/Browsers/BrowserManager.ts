@@ -3,8 +3,8 @@ import { BrowserContext, LaunchOptions, Page, chromium, firefox } from "playwrig
 const options: LaunchOptions = 
 {
     headless: true,
-    args: ['--start-maximized']
-}
+    //args: ['--start-maximized']
+} 
 
 export const InvokeBrowser = () => 
 {
