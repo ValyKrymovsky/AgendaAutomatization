@@ -96,6 +96,8 @@ stages:
             $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
             npm test -- --tags "@Invoice"
         displayName: Test script
+        env:
+            CI: 'true'
 
   
 - stage: HomeOffice
@@ -128,4 +130,6 @@ stages:
             $Env:PLAYWRIGHT_BROWSERS_PATH="$(Agent.WorkFolder)/1/s/browsers"
             npm test -- --tags "@HomeOffice"
         displayName: Test script
+        env:
+            CI: 'true'
 
