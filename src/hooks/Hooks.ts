@@ -80,6 +80,10 @@ Before(async function ({ pickle }) {
     console.log(context.backgroundPages().length);
     const page = await context.newPage();
     console.log(context.backgroundPages().length);
+    console.log(context.backgroundPages().length);
+    console.log(context.backgroundPages().length);
+    console.log(context.backgroundPages().length);
+    console.log(context.backgroundPages().length);
     this.logger = createLogger(Options(pickle.name));
     console.log("Created logger.");
     this.logger = logger;
