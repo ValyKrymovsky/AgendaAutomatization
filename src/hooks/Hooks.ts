@@ -113,7 +113,7 @@ Before(async function ({ pickle }) {
 
     console.log("Created and asigned all pages.");
 
-    await page.goto(process.env.BASEURL);
+    await this.page.goto(process.env.BASEURL);
 
     console.log("Redirected to sofa login page.");
     //this.logger = createLogger(Options(scenarioName));
