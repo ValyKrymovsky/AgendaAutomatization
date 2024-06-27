@@ -68,21 +68,23 @@ Before(async function ({ pickle }) {
         
     });
     console.log("Created browser context.");
+    
     await context.tracing.start({
         name: scenarioName,
         title: pickle.name,
         sources: true,
         screenshots: true, snapshots: true
     });
-    console.log("Started tracing.");
-    console.log(context.backgroundPages().length)
-    const page = await context.newPage();
-    console.log(context.backgroundPages().length)
-    console.log("Created new page.");
+    
+    //console.log("Started tracing.");
+    console.log(context.browser().browserType().name());
+    console.log(context.browser().contexts().length);
+    console.log(context.browser().isConnected());
+    this.page = await context.newPage();
+    console.log(context.pages().length);
     this.logger = createLogger(Options(pickle.name));
     console.log("Created logger.");
     this.logger = logger;
-    this.page = page;
     // Inicializace POM
     testPage = new TestPage(page);
     loginPage = new LoginPage(page);
@@ -111,7 +113,7 @@ Before(async function ({ pickle }) {
 
     console.log("Created and asigned all pages.");
 
-    await page.goto(process.env.BASEURL);
+    await this.page.goto(process.env.BASEURL);
 
     console.log("Redirected to sofa login page.");
     //this.logger = createLogger(Options(scenarioName));
