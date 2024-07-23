@@ -52,13 +52,13 @@ export default class TravelOrderPage {
         // Konec cesty //
         //
         // wf_txt2 || Jednání
-        await this.formPage.locator('#wf_txt0').fill("Test jednání..");
+        await this.formPage.locator('#wf_txt2').fill("Test jednání..");
 
         // wf_txt3 || Účel cesty
-        await this.formPage.locator('#wf_txt0').fill("Test účel cesty..");
+        await this.formPage.locator('#wf_txt3').fill("Test účel cesty..");
 
         // wf_txt4 || Komentář
-        await this.formPage.locator('#wf_txt0').fill("Test komentář..");
+        await this.formPage.locator('#wf_txt4').fill("Test komentář..");
 
         // wf_chb2 || Dopravní prostředek
         await this.formPage.locator('#wf_chb2').check();
@@ -70,7 +70,7 @@ export default class TravelOrderPage {
 
 
         // wf_btn8 || Odeslat button
-        await this.formPage.locator('#wf_btn5').click();
+        await this.formPage.locator('#wf_btn8').click();
         await this.WaitForErrorPopup();
     }
 
