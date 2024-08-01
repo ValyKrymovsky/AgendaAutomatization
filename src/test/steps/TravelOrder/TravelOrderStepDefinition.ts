@@ -13,18 +13,18 @@ let debugPage: Page
 let agendasPage: AgendasPage;
 
 
-Then('Open Purchase request page', async function ()
+Then('Open Travel order page', async function ()
 {
     if (!agendasPage) agendasPage = new AgendasPage(this.page);
     if (!agendasPage.IsInAgendasPage())
         await agendasPage.GoToAgendasPage();
 
-    var form = await agendasPage.OpenFormPage("Nákupní požadavek");
+    var form = await agendasPage.OpenFormPage("Cestovní příkaz");
     travelOrderPage = new TravelOrderPage(form.formPage);
     travelOrderPage.instanceId = form.instanceId;
 });
 
-Then('Fill out Purchase request {string}', async function(fillOption: string)
+Then('Fill out Travel order {string}', async function(fillOption: string)
 {
     if (fillOption === "all")
         await travelOrderPage.FillAllFields();
@@ -33,7 +33,7 @@ Then('Fill out Purchase request {string}', async function(fillOption: string)
     console.log("Filled out form page.");
 });
 
-Then('Open Purchase request instance', async function()
+Then('Open Travel order instance', async function()
 {
     if (!agendasPage.IsInAgendasPage())
         await agendasPage.GoToAgendasPage();
@@ -48,7 +48,7 @@ Then('Open Purchase request instance', async function()
 });
 
 
-Then('Check if Purchase request is {string}', async function(action: string)
+Then('Check if Travel order is {string}', async function(action: string)
 {
    if (!agendasPage.IsInAgendasPage())
         await agendasPage.GoToAgendasPage();
@@ -59,7 +59,7 @@ Then('Check if Purchase request is {string}', async function(action: string)
     await agendasPage.CheckAgendaState(rowLocator, action);
 });
 
-Then('End Purchase request test', async function()
+Then('End Travel order test', async function()
 {
     agendasPage = null;
     loginPage = null;
