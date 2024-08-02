@@ -5,7 +5,7 @@ import { Options } from "../../helper/Util/Logger";
 import { Request } from "node-fetch";
 import methods from "@cucumber/cucumber/lib/time";
 
-export default class ContractPage {
+export default class TravelOrderPage {
     browser: Browser;
     formPage: Page;
     instanceId: string;
@@ -24,124 +24,50 @@ export default class ContractPage {
         const date = new Date();
         const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
-        // wf_txt1 || Předmět smlouvy
-        await this.formPage.locator('#wf_txt1').fill("Test předmět smlouvy..");
+        //
+        // Počátek cesty //
+        //
+        // wf_txt0 || Místo
+        await this.formPage.locator('#wf_txt0').fill("Test místo začátku cesty..");
 
-        // wf_txt2 || Popis smlouvy
-        await this.formPage.locator('#wf_txt2').fill("Test popis smlouvy..");
-
-        // wf_txt4 || Číslo smlouvy ext
-        await this.formPage.locator('#wf_txt4').fill(this.GetRandomInt(999999).toString());
-
-        // wf_ilb0 || Druh smlouvy
-        await this.formPage.locator("#wf_ilb0").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Dodavatelská", exact: true}).click();
-
-        // wf_num0 || Částka bez DPH
-        await this.formPage.locator('#wf_num0').fill(this.GetRandomInt(999).toString());
-
-        // wf_dat0 || Předpokládané uzavření
+        // wf_dat0 || Datum
         await this.formPage.locator("#wf_dat0").fill(formattedDate);
 
-        // wf_ilb1 || Doba trvání
-        await this.formPage.locator("#wf_ilb1").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Určitá", exact: true}).click();
+        // wf_tim0 || Čas
+        await this.formPage.locator("#wf_tim0").fill("8:00");
 
-        // wf_acl0 || Vlastník
-        await this.formPage.locator("#wf_acl0").fill("a");
+        //
+        // Konec cesty //
+        //
+        // wf_txt1 || Místo
+        await this.formPage.locator('#wf_txt1').fill("Test místo konce cesty..");
+
+        // wf_dat1 || Datum
+        await this.formPage.locator("#wf_dat1").fill(formattedDate);
+
+        // wf_tim1 || Čas
+        await this.formPage.locator("#wf_tim1").fill("17:00");
+
+        //
+        // Konec cesty //
+        //
+        // wf_txt2 || Jednání
+        await this.formPage.locator('#wf_txt2').fill("Test jednání..");
+
+        // wf_txt3 || Účel cesty
+        await this.formPage.locator('#wf_txt3').fill("Test účel cesty..");
+
+        // wf_txt4 || Komentář
+        await this.formPage.locator('#wf_txt4').fill("Test komentář..");
+
+        // wf_chb2 || Dopravní prostředek
+        await this.formPage.locator('#wf_chb2').check();
+
+        // wf_acl1 || Spolucestujicí jméno a příjmení
+        await this.formPage.locator("#wf_acl1").fill("a");
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByText("Admin, Valy").click();
 
-        // wf_dat1 || Platnost od
-        await this.formPage.locator("#wf_dat1").fill(formattedDate);
-
-        // wf_dat2 || Platnost do
-        await this.formPage.locator("#wf_dat2").fill(formattedDate);
-
-        // wf_txt7 || IČ
-        await this.formPage.locator('#wf_txt7').fill("63078236");
-        await this.formPage.locator('#wf_btn3').click();
-        console.log("IČ done");
-
-        // await this.UploadFile();
-        await this.UploadFile();
-        console.log("File upload done");
-
-        await this.formPage.locator('#wf_ilb6').click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Smlouva", exact: true}).click();
-
-        // wf_txt16 || Komentář
-        await this.formPage.locator('#wf_txt16').fill("Test komentář..");
-        console.log("Komentář done");
-
-        // wf_acl2 || Výběr schvalovatele
-        await this.formPage.locator("#wf_acl2").click();
-        await this.formPage.locator("#wf_acl2").fill("v");
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByText("Development 2, Lukáš").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-
-        // wf_txt18 || Komentář schvalovatele
-        await this.formPage.locator('#wf_txt18').fill("Test komentář schvalovatele..");
-
-        // wf_btn8 || Odeslat button
-        await this.formPage.locator('#wf_btn8').click();
-        await this.WaitForErrorPopup();
-    }
-
-    async FillRequiredFields()
-    {
-        const date = new Date();
-        const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
-        // wf_txt1 || Předmět smlouvy
-        await this.formPage.locator('#wf_txt1').fill("Test předmět smlouvy..");
-
-        // wf_txt2 || Popis smlouvy
-        await this.formPage.locator('#wf_txt2').fill("Test popis smlouvy..");
-
-        // wf_ilb0 || Druh smlouvy
-        await this.formPage.locator("#wf_ilb0").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Dodavatelská", exact: true}).click();
-
-        // wf_num0 || Částka bez DPH
-        await this.formPage.locator('#wf_num0').fill(this.GetRandomInt(999).toString());
-
-        // wf_dat0 || Předpokládané uzavření
-        await this.formPage.locator("#wf_dat0").fill(formattedDate);
-
-        // wf_ilb1 || Doba trvání
-        await this.formPage.locator("#wf_ilb1").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Určitá", exact: true}).click();
-
-        // wf_acl0 || Vlastník
-        await this.formPage.locator("#wf_acl0").fill("a");
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByText("Admin, Valy").click();
-
-        // wf_dat1 || Platnost od
-        await this.formPage.locator("#wf_dat1").fill(formattedDate);
-
-        // wf_dat2 || Platnost do
-        await this.formPage.locator("#wf_dat2").fill(formattedDate);
-
-        // wf_txt7 || IČ
-        await this.formPage.locator('#wf_txt7').fill("63078236");
-        await this.formPage.locator('#wf_btn3').click();
-        console.log("IČ done");
-
-        // await this.UploadFile();
-        await this.UploadFile();
-        console.log("File upload done");
-
-        await this.formPage.locator('#wf_ilb6').click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Smlouva", exact: true}).click();
 
         // wf_btn8 || Odeslat button
         await this.formPage.locator('#wf_btn8').click();
@@ -321,8 +247,7 @@ export default class ContractPage {
         }, buffer);
 
         // Now dispatch
-        await this.formPage.locator('#wf_btm0_attachment').dispatchEvent('drop', { dataTransfer });
-        console.log("test test");
+        await this.formPage.dispatchEvent('#wf_btm0_attachment', 'drop', { dataTransfer });
     }
 
     async UploadFile2()
