@@ -24,7 +24,7 @@ export default class LoginPage
     async NavigateToLoginPage(loginpage: string)
     {       
         await this.page.goto(loginpage);
-        console.log("Iam in login page.");           
+        console.log("I'am in the login page.");           
     }
 
     async FillUserName(userName: string)
@@ -32,7 +32,7 @@ export default class LoginPage
         await this.page.locator(this.Elements.userNameLocator).fill(userName);
         await this.page.getByRole('button', { name: this.Elements.firstNextBtn }).click();
         await this.page.waitForLoadState('networkidle', { timeout: 10000 });
-        console.log("Clik on next after fill email.");  
+        console.log("Click on next after fill email.");  
     }
 
     async FillPassword(userPassword: string)

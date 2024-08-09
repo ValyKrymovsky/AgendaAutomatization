@@ -24,13 +24,40 @@ Then('Open Travel order page', async function ()
     travelOrderPage.instanceId = form.instanceId;
 });
 
-Then('Fill out Travel order {string}', async function(fillOption: string)
+Then('Fill out Travel order', async function()
 {
-    if (fillOption === "all")
-        await travelOrderPage.FillAllFields();
+    await travelOrderPage.FillAllFields();
 
     await travelOrderPage.formPage.close();
     console.log("Filled out form page.");
+});
+
+Then('{string} Travel order as approver', async function(action: string)
+{
+    await travelOrderPage.CompleteActionAsApprover(action);
+    await travelOrderPage.formPage.close();
+    console.log("Page closed.");
+});
+
+Then('{string} Travel order as approver second time', async function(action: string)
+{
+    await travelOrderPage.CompleteActionAsApprover2(action);
+    await travelOrderPage.formPage.close();
+    console.log("Page closed.");
+});
+
+Then('{string} Travel order as accountant', async function(action: string)
+{
+    await travelOrderPage.CompleteActionAsAccountant(action);
+    await travelOrderPage.formPage.close();
+    console.log("Page closed.");
+});
+
+Then('{string} Travel order as biller', async function(action: string)
+{
+    await travelOrderPage.CompleteActionAsBiller(action);
+    await travelOrderPage.formPage.close();
+    console.log("Page closed.");
 });
 
 Then('Open Travel order instance', async function()

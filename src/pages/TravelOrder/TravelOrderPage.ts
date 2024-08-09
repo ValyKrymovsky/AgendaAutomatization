@@ -61,7 +61,7 @@ export default class TravelOrderPage {
         await this.formPage.locator('#wf_txt4').fill("Test komentář..");
 
         // wf_chb2 || Dopravní prostředek
-        await this.formPage.locator('#wf_chb2').check();
+        await this.formPage.locator('#wf_chb2').click();
 
         // wf_acl1 || Spolucestujicí jméno a příjmení
         await this.formPage.locator("#wf_acl1").fill("a");
@@ -70,7 +70,7 @@ export default class TravelOrderPage {
 
 
         // wf_btn8 || Odeslat button
-        await this.formPage.locator('#wf_btn8').click();
+        await this.formPage.locator('#wf_btn5').click();
         await this.WaitForErrorPopup();
     }
 
@@ -91,6 +91,32 @@ export default class TravelOrderPage {
         switch(action)
         {
             case "Approve":
+                await this.formPage.locator("#wf_btn9").click();
+                await this.WaitForErrorPopup();
+                break;
+
+            case "Return":
+                await this.formPage.locator("#wf_txt0").fill("Odůvodnění: vráceno...");
+                await this.formPage.locator("#wf_btn10").click();
+                await this.WaitForNotePopup();
+                await this.WaitForErrorPopup();
+                break;
+
+            case "Deny":
+                await this.formPage.locator("#wf_txt0").fill("Odůvodnění: vráceno...");
+                await this.formPage.locator("#wf_btn11").click();
+                await this.WaitForDenyPopup();
+                await this.WaitForErrorPopup();
+                break;
+        }
+    }
+
+    async CompleteActionAsApprover2(action: string)
+    {
+        console.log("Called CompleteActionAsApprover2 function.");
+        switch(action)
+        {
+            case "Approve":
                 await this.formPage.locator("#wf_btn8").click();
                 await this.WaitForErrorPopup();
                 break;
@@ -104,19 +130,63 @@ export default class TravelOrderPage {
         }
     }
 
-    async CompleteActionAsOwner(action: string)
+    async CompleteActionAsAccountant(action: string)
     {
-        console.log("Called CompleteActionAsOwner function.");
+        console.log("Called CompleteActionAsAccountant function.");
         switch(action)
         {
-            case "Approve":
-                await this.formPage.locator("#wf_btn8").click();
+            case "Complete":
+                await this.formPage.locator("#wf_btn15").click();
                 await this.WaitForErrorPopup();
                 break;
 
             case "Return":
                 await this.formPage.locator("#wf_txt0").fill("Odůvodnění: vráceno...");
-                await this.formPage.locator("#wf_btn9").click();
+                await this.formPage.locator("#wf_btn17").click();
+                await this.WaitForNotePopup();
+                await this.WaitForErrorPopup();
+                break;
+        }
+    }
+
+    async CompleteActionAsBiller(action: string)
+    {
+        console.log("Called CompleteActionAsBiller function.");
+
+        switch(action)
+        {
+            case "Bill":
+                await this.formPage.locator("#wf_btn40").click();
+
+                await this.formPage.locator("#wf_tim0").fill("8:00");
+                await this.formPage.locator("#wf_tim1").fill("9:00");
+
+                await this.formPage.locator("#wf_ilb0").click();
+                await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+                await this.formPage.getByRole("option", {name: "Autobus", exact: true}).click();
+
+                await this.formPage.locator("#wf_txt3").fill("Test důvod cesty 1..");
+
+                await this.formPage.locator("#wf_tim3").fill("8:00");
+                await this.formPage.locator("#wf_tim4").fill("9:00");
+
+                await this.formPage.locator("#wf_ilb7").click();
+                await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+                await this.formPage.getByRole("option", {name: "Vlak", exact: true}).click();
+
+                await this.formPage.locator("#wf_txt3").fill("Test důvod cesty 2..");
+
+                await this.formPage.locator("#wf_num10").fill("123");
+                await this.formPage.locator("#wf_num12").fill("456");
+
+                await this.formPage.locator("#wf_txt6").fill("Test komentář..");
+
+                await this.formPage.locator("#wf_btn55").click();
+                await this.WaitForErrorPopup();
+                break;
+
+            case "Don't bill":
+                await this.formPage.locator("#wf_btn41").click();
                 await this.WaitForNotePopup();
                 await this.WaitForErrorPopup();
                 break;

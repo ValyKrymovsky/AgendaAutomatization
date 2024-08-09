@@ -16,10 +16,17 @@ let agendasPage: AgendasPage;
 
 Then('Open Absence page', async function ()
 {
-    if (!agendasPage) agendasPage = new AgendasPage(this.page);
+    if (!agendasPage)
+    {
+        console.log("Creating new AgendasPage.");
+        agendasPage = new AgendasPage(this.page);
+    }
     if (!agendasPage.IsInAgendasPage())
+    {
+        console.log("Not in the agendas page. Redirecting..");
         await agendasPage.GoToAgendasPage();
-
+    }
+        
     var form = await agendasPage.OpenFormPage("Nepřítomnost");
     absencePage = new AbsencePage(form.formPage);
     absencePage.instanceId = form.instanceId;

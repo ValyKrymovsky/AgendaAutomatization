@@ -188,7 +188,7 @@ export default class AgendasPage
 
         // Posluchač pro zachycení odpovědí po navigaci
         this.agendasPage.on('response', response => {
-            if (response.url() === 'https://presofa.602.cz/InProgress/Agendas?viewId=agendas' && response.status() === 200) {
+            if (response.url() === 'https://testsofa.602.cz/InProgress/Agendas?viewId=agendas' && response.status() === 200) {
                 console.log('Response status for Agendas page is 200');
                 responseReceived = true;
             }
@@ -196,7 +196,7 @@ export default class AgendasPage
         // Zapnutí debugu
         //await this.agendasPage.goto("https://testsofas.602.cz/fas/formservice/filler.debug?SetDbg=Admin602&Level=5&Comm=true");
 
-        await this.agendasPage.goto("https://presofa.602.cz/InProgress/Agendas?viewId=agendas");
+        await this.agendasPage.goto("https://testsofa.602.cz/InProgress/Agendas?viewId=agendas");
 
         // Počkejte na načtení stránky
         await this.agendasPage.waitForLoadState('networkidle');
@@ -209,7 +209,7 @@ export default class AgendasPage
 
     IsInAgendasPage()
     {
-        if (this.agendasPage.url() === 'https://presofa.602.cz/InProgress/Agendas?viewId=agendas')
+        if (this.agendasPage.url() === 'https://testsofa.602.cz/InProgress/Agendas?viewId=agendas')
             return true;
 
         return false;
