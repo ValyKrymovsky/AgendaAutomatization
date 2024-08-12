@@ -63,6 +63,13 @@ Then('{string} Invoice request as accountant', async function(action: string)
     console.log("Page closed.");
 });
 
+Then("Change {string} invoice field to {string} and send", async function(field: string, value: string)
+{
+    await invoicePage.FillOutSpecificField(field, value);
+    await invoicePage.formPage.close();
+    console.log("Page closed.");
+});
+
 Then('Check if Invoice is {string}', async function(action: string)
 {
    if (!agendasPage.IsInAgendasPage())

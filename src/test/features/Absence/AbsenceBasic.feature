@@ -9,7 +9,7 @@ Scenario: Absence accountant deny
     Then Switch to user:"Test, Nadřízený_01", id:"c2728e94-97a5-490f-b1ce-9bb357933a10"
     Then Open Absence instance
     Then "Approve" Absence request as approver
-    And Wait for 180 seconds
+    And Wait for 60 seconds
     Then Switch to user:"Test, Účetní", id:"064d68d3-93eb-4228-b08c-c66a1b2b52fe"
     Then Open Absence instance
     Then "Approve" Absence request as accountant
@@ -26,7 +26,7 @@ Scenario: Absence positive test
     Then Switch to user:"Test, Nadřízený_01", id:"c2728e94-97a5-490f-b1ce-9bb357933a10"
     Then Open Absence instance
     Then "Approve" Absence request as approver
-    And Wait for 180 seconds
+    And Wait for 60 seconds
     Then Switch to user:"Test, Účetní", id:"064d68d3-93eb-4228-b08c-c66a1b2b52fe"
     Then Open Absence instance
     Then "Deny" Absence request as accountant

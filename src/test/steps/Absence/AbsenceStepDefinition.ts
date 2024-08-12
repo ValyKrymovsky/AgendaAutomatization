@@ -27,7 +27,7 @@ Then('Open Absence page', async function ()
         await agendasPage.GoToAgendasPage();
     }
         
-    var form = await agendasPage.OpenFormPage("Nepřítomnost");
+    var form = await agendasPage.OpenFormPage("Nepřítomnost - pro testování	");
     absencePage = new AbsencePage(form.formPage);
     absencePage.instanceId = form.instanceId;
 });
@@ -85,7 +85,7 @@ Then('Check if Absence is {string}', async function(action: string)
     agendasPage = null;
 });
 
-Then('Change {string} field to {string} and send', async function(fieldId: string, value: string)
+Then('Change {string} absence field to {string} and send', async function(fieldId: string, value: string)
 {
     await absencePage.FillOutSpecificField(fieldId, value);
 });

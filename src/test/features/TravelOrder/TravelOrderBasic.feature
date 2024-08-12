@@ -20,7 +20,7 @@ Scenario: Travel order basic approve
     Then Check if Travel order is "Schváleno archivováno"
     Then End Travel order test
 
-@SystemAgenda
+
 Scenario: Travel order basic deny 1
     Given Login
     And Open Travel order page
@@ -32,7 +32,7 @@ Scenario: Travel order basic deny 1
     Then End Travel order test
 
 
-@SystemAgenda
+
 Scenario: Travel order basic deny 2
     Given Login
     And Open Travel order page
