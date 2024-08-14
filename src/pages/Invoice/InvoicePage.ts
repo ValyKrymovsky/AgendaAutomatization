@@ -43,18 +43,18 @@ export default class InvoicePage {
                 console.log("Not first attempt!");
                 console.log("Clicking on wf_txt3.");
                 await this.formPage.locator("#wf_txt3").click();
-                console.log("Focusing on wf_ilb1.");
-                await this.formPage.locator("#wf_ilb1").click();
+                console.log("Clicking on wf_ilb1 for the " + i + ". time.");
+                await this.formPage.locator("#wf_ilb1SelectBoxIt").click();
             }
             else
             {
-                console.log("Clicking on wf_ilb1.");
+                console.log("Clicking on wf_ilb1 for the first time.");
                 await this.formPage.locator("#wf_ilb1").click();
             }
             
             await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
             console.log("No network traffic.");
-            await setTimeout(1000);
+            await setTimeout(3000);
             if (await this.formPage.getByRole("option", {name: "Složenkou", exact: true}).isVisible({timeout: 10000}))
             {
                 console.log("Option is visible, attempting click on option.");
@@ -63,7 +63,7 @@ export default class InvoicePage {
             }
 
             console.log("Option is not visible. Waiting for 6s.");
-            await setTimeout(6000);
+            await setTimeout(3000);
         }
 
 
@@ -89,7 +89,7 @@ export default class InvoicePage {
                     console.log("Clicking on wf_txt3.");
                     await this.formPage.locator("#wf_txt3").click();
                     console.log("Focusing on wf_ilb5.");
-                    await this.formPage.locator("#wf_ilb5").click();
+                    await this.formPage.locator("#wf_ilb5SelectBoxItText").click();
                 }
                 else
                 {
@@ -99,7 +99,7 @@ export default class InvoicePage {
                 
             await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
             console.log("No network traffic.");
-            await setTimeout(1000);
+            await setTimeout(3000);
             if (await this.formPage.getByRole("option", {name: "Položka 1", exact: true}).isVisible({timeout: 10000}))
             {
                 console.log("Option is visible, attempting click on option.");
@@ -108,7 +108,7 @@ export default class InvoicePage {
             }
 
             console.log("Option is not visible. Waiting for 6s.");
-            await setTimeout(6000);
+            await setTimeout(3000);
         }
 
         
@@ -130,7 +130,7 @@ export default class InvoicePage {
             await this.formPage.locator("#wf_acl1").fill("a");
             await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
             console.log("No network traffic.");
-            await setTimeout(1000);
+            await setTimeout(3000);
             if (await this.formPage.getByText("Test, Nadřízený_01").isVisible({timeout: 10000}))
             {
                 console.log("Option is visible, attempting click on option.");
@@ -139,7 +139,7 @@ export default class InvoicePage {
             }
 
             console.log("Option is not visible. Waiting for 6s.");
-            await setTimeout(6000);
+            await setTimeout(3000);
         }
 
         await this.UploadFile();
