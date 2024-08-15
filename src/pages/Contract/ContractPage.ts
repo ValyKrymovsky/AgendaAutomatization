@@ -4,6 +4,7 @@ import { Keyboard, Locator } from "puppeteer";
 import { Options } from "../../helper/Util/Logger";
 import { Request } from "node-fetch";
 import methods from "@cucumber/cucumber/lib/time";
+import { setTimeout } from "timers/promises";
 
 export default class ContractPage {
     browser: Browser;
@@ -30,13 +31,44 @@ export default class ContractPage {
         // wf_txt2 || Popis smlouvy
         await this.formPage.locator('#wf_txt2').fill("Test popis smlouvy..");
 
-        // wf_txt4 || Číslo smlouvy ext
-        await this.formPage.locator('#wf_txt4').fill(this.GetRandomInt(999999).toString());
-
+        /*
         // wf_ilb0 || Druh smlouvy
         await this.formPage.locator("#wf_ilb0").click();
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByRole("option", {name: "Dodavatelská", exact: true}).click();
+        */
+
+        // wf_ilb0 || Druh smlouvy
+        for (let i = 0; i < 10; i++)
+        {
+            if (i > 0)
+            {
+                console.log("Not first attempt!");
+                console.log("Clicking on wf_txt1.");
+                await this.formPage.locator("#wf_txt1").click();
+                console.log("Clicking on wf_ilb0 for the " + i + ". time.");
+                await this.formPage.locator("#wf_ilb0SelectBoxIt").click();
+            }
+            else
+            {
+                console.log("Clicking on wf_ilb0 for the first time.");
+                await this.formPage.locator("#wf_ilb0").click();
+            }
+            
+            await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+            console.log("No network traffic.");
+            await setTimeout(3000);
+            if (await this.formPage.getByRole("option", {name: "Dodavatelská", exact: true}).isVisible({timeout: 10000}))
+            {
+                console.log("Option is visible, attempting click on option.");
+                await this.formPage.getByRole("option", {name: "Dodavatelská", exact: true}).click();
+                break;
+            }
+
+            console.log("Option is not visible. Waiting for 6s.");
+            await setTimeout(3000);
+        }
+
 
         // wf_num0 || Částka bez DPH
         await this.formPage.locator('#wf_num0').fill(this.GetRandomInt(999).toString());
@@ -45,14 +77,75 @@ export default class ContractPage {
         await this.formPage.locator("#wf_dat0").fill(formattedDate);
 
         // wf_ilb1 || Doba trvání
+        /*
         await this.formPage.locator("#wf_ilb1").click();
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByRole("option", {name: "Určitá", exact: true}).click();
+        */
 
+        // wf_ilb1 || Doba trvání
+        for (let i = 0; i < 10; i++)
+        {
+            if (i > 0)
+            {
+                console.log("Not first attempt!");
+                console.log("Clicking on wf_txt1.");
+                await this.formPage.locator("#wf_txt1").click();
+                console.log("Clicking on wf_ilb1 for the " + i + ". time.");
+                await this.formPage.locator("#wf_ilb1SelectBoxIt").click();
+            }
+            else
+            {
+                console.log("Clicking on wf_ilb1 for the first time.");
+                await this.formPage.locator("#wf_ilb1").click();
+            }
+            
+            await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+            console.log("No network traffic.");
+            await setTimeout(3000);
+            if (await this.formPage.getByRole("option", {name: "Určitá", exact: true}).isVisible({timeout: 10000}))
+            {
+                console.log("Option is visible, attempting click on option.");
+                await this.formPage.getByRole("option", {name: "Určitá", exact: true}).click();
+                break;
+            }
+
+            console.log("Option is not visible. Waiting for 6s.");
+            await setTimeout(3000);
+        }
+
+        /*
         // wf_acl0 || Vlastník
         await this.formPage.locator("#wf_acl0").fill("a");
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByText("Admin, Valy").click();
+        */
+
+        // wf_acl0 || Vlastník
+        for (let i = 0; i < 10; i++)
+        {
+            if (i > 0)
+                {
+                    console.log("Not first attempt!");
+                    console.log("Clicking on wf_txt1.");
+                    await this.formPage.locator("#wf_txt1").click();
+                }
+                
+            await this.formPage.locator("#wf_acl0").click();
+            await this.formPage.locator("#wf_acl0").fill("a");
+            await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+            console.log("No network traffic.");
+            await setTimeout(3000);
+            if (await this.formPage.getByText("Test, Uzivatel01").isVisible({timeout: 10000}))
+            {
+                console.log("Option is visible, attempting click on option.");
+                await this.formPage.getByText("Test, Uzivatel01").click();
+                break;
+            }
+
+            console.log("Option is not visible. Waiting for 6s.");
+            await setTimeout(3000);
+        }
 
         // wf_dat1 || Platnost od
         await this.formPage.locator("#wf_dat1").fill(formattedDate);
@@ -63,85 +156,75 @@ export default class ContractPage {
         // wf_txt7 || IČ
         await this.formPage.locator('#wf_txt7').fill("63078236");
         await this.formPage.locator('#wf_btn3').click();
-        console.log("IČ done");
 
-        // await this.UploadFile();
+        console.log("Starting file upload..");
         await this.UploadFile();
-        console.log("File upload done");
+        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+        console.log("File upload done..");
 
+        /*
         await this.formPage.locator('#wf_ilb6').click();
         await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
         await this.formPage.getByRole("option", {name: "Smlouva", exact: true}).click();
+        */
 
-        // wf_txt16 || Komentář
-        await this.formPage.locator('#wf_txt16').fill("Test komentář..");
-        console.log("Komentář done");
+        /*
+        for (let i = 0; i < 10; i++)
+        {
+            if (i > 0)
+            {
+                console.log("Not first attempt!");
+                console.log("Clicking on wf_txt1.");
+                await this.formPage.locator("#wf_txt1").click();
+                console.log("Clicking on wf_ilb6 for the " + i + ". time.");
+                await this.formPage.locator("#wf_ilb6SelectBoxIt").click();
+            }
+            else
+            {
+                console.log("Clicking on wf_ilb6 for the first time.");
+                await this.formPage.locator("#wf_ilb6").click();
+            }
+            
+            await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+            console.log("No network traffic.");
+            await setTimeout(3000);
+            if (await this.formPage.getByRole("option", {name: "Smlouva", exact: true}).isVisible({timeout: 10000}))
+            {
+                console.log("Option is visible, attempting click on option.");
+                await this.formPage.getByRole("option", {name: "Smlouva", exact: true}).click();
+                break;
+            }
 
-        // wf_acl2 || Výběr schvalovatele
-        await this.formPage.locator("#wf_acl2").click();
-        await this.formPage.locator("#wf_acl2").fill("v");
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByText("Development 2, Lukáš").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+            console.log("Option is not visible. Waiting for 6s.");
+            await setTimeout(3000);
+        }
+            */
 
-        // wf_txt18 || Komentář schvalovatele
-        await this.formPage.locator('#wf_txt18').fill("Test komentář schvalovatele..");
-
-        // wf_btn8 || Odeslat button
-        await this.formPage.locator('#wf_btn8').click();
-        await this.WaitForErrorPopup();
-    }
-
-    async FillRequiredFields()
-    {
-        const date = new Date();
-        const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
-        // wf_txt1 || Předmět smlouvy
-        await this.formPage.locator('#wf_txt1').fill("Test předmět smlouvy..");
-
-        // wf_txt2 || Popis smlouvy
-        await this.formPage.locator('#wf_txt2').fill("Test popis smlouvy..");
-
-        // wf_ilb0 || Druh smlouvy
-        await this.formPage.locator("#wf_ilb0").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Dodavatelská", exact: true}).click();
-
-        // wf_num0 || Částka bez DPH
-        await this.formPage.locator('#wf_num0').fill(this.GetRandomInt(999).toString());
-
-        // wf_dat0 || Předpokládané uzavření
-        await this.formPage.locator("#wf_dat0").fill(formattedDate);
-
-        // wf_ilb1 || Doba trvání
-        await this.formPage.locator("#wf_ilb1").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Určitá", exact: true}).click();
-
-        // wf_acl0 || Vlastník
-        await this.formPage.locator("#wf_acl0").fill("a");
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByText("Admin, Valy").click();
-
-        // wf_dat1 || Platnost od
-        await this.formPage.locator("#wf_dat1").fill(formattedDate);
-
-        // wf_dat2 || Platnost do
-        await this.formPage.locator("#wf_dat2").fill(formattedDate);
-
-        // wf_txt7 || IČ
-        await this.formPage.locator('#wf_txt7').fill("63078236");
-        await this.formPage.locator('#wf_btn3').click();
-        console.log("IČ done");
-
-        // await this.UploadFile();
-        await this.UploadFile();
-        console.log("File upload done");
-
-        await this.formPage.locator('#wf_ilb6').click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Smlouva", exact: true}).click();
+        // wf_acl2 || Schvalovatel
+        for (let i = 0; i < 10; i++)
+            {
+                if (i > 0)
+                    {
+                        console.log("Not first attempt!");
+                        console.log("Clicking on wf_txt1.");
+                        await this.formPage.locator("#wf_txt1").click();
+                    }
+                    
+                await this.formPage.locator("#wf_acl2").click();
+                await this.formPage.locator("#wf_acl2").fill("a");
+                await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
+                console.log("No network traffic.");
+                await setTimeout(3000);
+                if (await this.formPage.locator('//div[text()="Test, Nadřízený_01" and @id="ui-id-15"]').isVisible({timeout: 10000}))
+                {
+                    console.log("Option is visible, attempting click on option.");
+                    await this.formPage.locator('//div[text()="Test, Nadřízený_01" and @id="ui-id-15"]').click();
+                    break;
+                }
+    
+                console.log("Option is not visible. Waiting for 6s.");
+                await setTimeout(3000);
+            }
 
         // wf_btn8 || Odeslat button
         await this.formPage.locator('#wf_btn8').click();
@@ -305,24 +388,34 @@ export default class ContractPage {
 
     async UploadFile()
     {
-        const fs = require("fs");
-        // Read your file into a buffer.
-        const buffer = fs.readFileSync('files/4.pdf');
-
-        // Create the DataTransfer and File
-        const dataTransfer = await this.formPage.evaluateHandle((data) => {
-            console.log(data);
-            const dt = new DataTransfer();
-            // Convert the buffer to a hex array
-            const file = new File([data.toString('hex')], 'files/4.pdf', { type: 'application/pdf' });
-            console.log(file);
-            dt.items.add(file);
-            return dt;
-        }, buffer);
-
-        // Now dispatch
-        await this.formPage.locator('#wf_btm0_attachment').dispatchEvent('drop', { dataTransfer });
-        console.log("test test");
+        try
+        {
+            const fs = require("fs");
+            // Read your file into a buffer.
+            const buffer = fs.readFileSync('files/4.pdf');
+            console.log(`File buffer length: ${buffer.length}`);
+    
+            // Create the DataTransfer and File
+            const dataTransfer = await this.formPage.evaluateHandle((data) => {
+                console.log(data);
+                const dt = new DataTransfer();
+                // Convert the buffer to a hex array
+                const file = new File([data.toString('hex')], 'files/4.pdf', { type: 'application/pdf' });
+                console.log(file);
+                dt.items.add(file);
+                return dt;
+            }, buffer);
+    
+            // Now dispatch
+            await this.formPage.dispatchEvent('#wf_btm0_attachment', 'drop', { dataTransfer });
+            console.log("Drop event dispatched at element #wf_btm0_attachment");
+        }
+        catch(error)
+        {
+            console.log(`Failed to upload file: ${error}`);
+            console.log(`Stack trace: ${error}`);
+        }
+        
     }
 
     async UploadFile2()

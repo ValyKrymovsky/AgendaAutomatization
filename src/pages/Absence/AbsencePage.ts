@@ -4,6 +4,7 @@ import { Keyboard, Locator } from "puppeteer";
 import { Options } from "../../helper/Util/Logger";
 import { Request } from "node-fetch";
 import methods from "@cucumber/cucumber/lib/time";
+import { Logger } from "winston";
 
 export default class AbsencePage {
     browser: Browser;
@@ -23,11 +24,6 @@ export default class AbsencePage {
     {
         const date = new Date();
         const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
-        // wf_ilb1 || Důvod nepřítomnosti
-        await this.formPage.locator("#wf_ilb1").click();
-        await this.formPage.waitForLoadState('networkidle', { timeout: 50000 });
-        await this.formPage.getByRole("option", {name: "Lékař", exact: true}).click();
 
         // wf_dat0 || Dotum od
         await this.formPage.locator("#wf_dat0").fill(formattedDate);

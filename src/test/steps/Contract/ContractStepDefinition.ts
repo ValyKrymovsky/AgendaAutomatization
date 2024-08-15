@@ -28,8 +28,8 @@ Then('Fill out Contract {string}', async function(fillOption: string)
 {
     if (fillOption === "all")
         await contractPage.FillAllFields();
-    else if (fillOption === "required")
-        await contractPage.FillRequiredFields();
+    else
+    throw new Error("Unexpected parameter fillOption.");
 
     await contractPage.formPage.waitForEvent('close');
     console.log("Filled out form page.");

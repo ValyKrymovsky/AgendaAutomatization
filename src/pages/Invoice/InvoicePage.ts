@@ -34,7 +34,6 @@ export default class InvoicePage {
         var num = await this.GetRandomInt(99999);
         await this.formPage.locator("#wf_num0").fill(num.toString());
 
-
         // wf_ilb1 || Způsob platby
         for (let i = 0; i < 10; i++)
         {

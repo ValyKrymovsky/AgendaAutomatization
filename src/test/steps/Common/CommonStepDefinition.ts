@@ -5,6 +5,7 @@ import { expect } from "@playwright/test";
 import AgendasPage from "../../../pages/Agendas/AgendasPage";
 import { Page } from "puppeteer";
 import { setTimeout } from "timers/promises";
+import { promiseHooks } from "v8";
 
 
 let loginPage: LoginPage;
@@ -18,6 +19,14 @@ Given('Login', async function ()
     await loginPage.FillUserName(process.env.EMAIL);
     await loginPage.FillPassword(process.env.PASSWORD);
     agendasPage = new AgendasPage(this.page);
+});
+
+Then('Enable debug mode', async function()
+{
+    await this.page.goto("https://testsofas.602.cz/fas/formservice/filler.debug?SetDbg=Admin602&Level=5&Comm=true");
+    await  this.page.waitForLoadState('networkidle', { timeout: 50000 });
+    console.log("No network traffic.");
+    await this.page.goBack();
 });
 
 
