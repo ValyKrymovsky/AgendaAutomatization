@@ -3,6 +3,7 @@ import { Fixtures } from "../../hooks/PagesFixtures";
 import { Locator } from "puppeteer";
 import { Options } from "../../helper/Util/Logger";
 import { Request } from "node-fetch";
+import { setTimeout } from "timers/promises";
 
 export default class HomeOfficePage {
     browser: Browser;
@@ -33,14 +34,14 @@ export default class HomeOfficePage {
         // Čas od || wf_tim0
         await this.formPage.locator("#wf_tim0").fill("8:00");
 
-        // Čas nepřítomnosti od || wf_tim1
-        await this.formPage.locator("#wf_tim1").fill("12:00");
+        // Čas do || wf_tim1
+        await this.formPage.locator("#wf_tim1").fill("16:30");
 
-        // Čas nepřítomnosti do || wf_tim2
+        // Čas nepřítomnosti od || wf_tim2
         await this.formPage.locator("#wf_tim2").fill("12:30");
 
-        // Čas do || wf_tim3
-        await this.formPage.locator("#wf_tim3").fill("16:30");
+        // Čas nepřítomnosti do || wf_tim3
+        await this.formPage.locator("#wf_tim3").fill("13:00");
 
         // Zdůvodnění || wf_txt0
         await this.formPage.locator("#wf_txt0").fill("Test zdůvodnění");

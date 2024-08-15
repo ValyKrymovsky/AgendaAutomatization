@@ -51,6 +51,8 @@ Then('Open Invoice instance', async function()
 
 Then('{string} Invoice request as approver', async function(action: string)
 {
+    console.log(`Page count for the context is: ${agendasPage.agendasPage.context().pages().length}`);
+
     await invoicePage.CompleteActionAsApprover(action);
     await invoicePage.formPage.close();
     console.log("Page closed.");
@@ -58,6 +60,8 @@ Then('{string} Invoice request as approver', async function(action: string)
 
 Then('{string} Invoice request as accountant', async function(action: string)
 {
+    console.log(`Page count for the context is: ${agendasPage.agendasPage.context().pages().length}`);
+    
     await invoicePage.CompleteActionAsAccountant(action);
     await invoicePage.formPage.close();
     console.log("Page closed.");

@@ -22,6 +22,7 @@ export default class ContractPage {
 
     async FillAllFields()
     {
+        console.log(this.formPage.context.name);
         const date = new Date();
         const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 

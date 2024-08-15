@@ -23,6 +23,7 @@ export default class InvoicePage {
 
     async FillAllFields()
     {
+        console.log(`Page count for the context is: ${this.formPage.context().pages().length}`);
         const date = new Date();
         const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
 
@@ -228,6 +229,7 @@ export default class InvoicePage {
 
     async CompleteActionAsApprover(action: string)
     {
+        console.log(`Page count for the context is: ${this.formPage.context().pages().length}`);
         console.log("Called CompleteActionAsApprover function.");
         switch(action)
         {
@@ -249,6 +251,7 @@ export default class InvoicePage {
 
     async CompleteActionAsAccountant(action: string)
     {
+        console.log(`Page count for the context is: ${this.formPage.context().pages().length}`);
         console.log("Called CompleteActionAsAccountant function.");
         switch(action)
         {
